@@ -2,7 +2,9 @@ package com.example.eventos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -16,13 +18,13 @@ public class splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-        //openApp();
+        openApp();
 
-        ImageView etos=findViewById(R.id.etossplash);
-        Animation etoss=AnimationUtils.loadAnimation(this,R.anim.vanish);
+        ImageView etos = findViewById(R.id.etossplash);
+        Animation etoss = AnimationUtils.loadAnimation(this, R.anim.vanish);
         etos.startAnimation(etoss);
 
-        ImageView ven=findViewById(R.id.vensplash);
+        ImageView ven = findViewById(R.id.vensplash);
 
         ven.postDelayed(new Runnable() {
             @Override
@@ -41,8 +43,8 @@ public class splash extends AppCompatActivity {
         }, 2000);
 
 
-        ImageView brujula=findViewById(R.id.brujulasplash);
-        Animation compass= AnimationUtils.loadAnimation(this,R.anim.fadeanimation);
+        ImageView brujula = findViewById(R.id.brujulasplash);
+        Animation compass = AnimationUtils.loadAnimation(this, R.anim.fadeanimation);
         brujula.startAnimation(compass);
 
         brujula.postDelayed(new Runnable() {
@@ -61,4 +63,19 @@ public class splash extends AppCompatActivity {
             }
         }, 1000);
     }
+
+        private void openApp() {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable()
+            {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(splash
+                            .this, Register.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            }, 5000);
+        }
 }
