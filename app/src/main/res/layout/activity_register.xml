@@ -52,71 +52,77 @@
         android:id="@+id/usernameInputR"
         android:layout_width="329dp"
         android:layout_height="50dp"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="105dp"
+        android:layout_marginEnd="42dp"
         android:ems="10"
         android:inputType="text"
         android:text="Username"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginR" />
 
     <EditText
         android:id="@+id/emailInputR"
         android:layout_width="329dp"
         android:layout_height="50dp"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="42dp"
         android:inputType="text"
         android:text="Email Address"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameInputR" />
+
+    <ImageView
+        android:id="@+id/emialR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/emailInputR"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:srcCompat="@drawable/email" />
 
     <EditText
         android:id="@+id/passwordInputR"
         android:layout_width="329dp"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="42dp"
         android:inputType="text"
         android:text="Password"
         android:textColor="@color/white"
-        app:layout_constraintStart_toEndOf="@+id/lockR"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInputR" />
+
 
     <ImageView
         android:id="@+id/lockR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="408dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/sLockR"
         app:layout_constraintEnd_toStartOf="@+id/passwordInputR"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emialR"
         app:srcCompat="@drawable/lock_pass" />
 
     <EditText
         android:id="@+id/repeatPasswordInputR"
         android:layout_width="329dp"
         android:layout_height="50dp"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="42dp"
         android:inputType="text"
         android:text="Repeat Password"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInputR" />
-
 
     <ImageView
         android:id="@+id/sLockR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/repeatPasswordInputR"
         app:layout_constraintTop_toBottomOf="@+id/lockR"
@@ -154,13 +160,13 @@
         style="@style/botonlogin"
         android:layout_width="342dp"
         android:layout_height="55dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="37dp"
         android:fontFamily="@font/inter_light"
         android:text="Register"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxR" />
 
     <TextView
@@ -192,5 +198,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textTermsR" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="302dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/usernameInputR"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/person" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
