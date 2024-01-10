@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="carne_pastel">#D99379</color>
-    <color name="azul_claro">#426A8C</color>
-    <color name="azul_oscuro">#033859</color>
-    <color name="naranja_claro">#F27F3D</color>
-    <color name="naranja_oscuro">#D94814</color>
-
-
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="azulOscuro">#033859</color>
+    <color name="azulClaro">#426A8C</color>
+    <color name="naranjaOscuro">#D94814</color>
+    <color name="naranja">#F27F3D</color>
+    <color name="gris">#D99379</color>
 </resources>
