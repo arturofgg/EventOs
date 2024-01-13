@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,14 +30,14 @@ public class Register extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        FirebaseApp.initializeApp(this);
         mFirestore=FirebaseFirestore.getInstance();
         mAuth=FirebaseAuth.getInstance();
-
         usuario=findViewById(R.id.usernameInputR);
         correo=findViewById(R.id.emailInputR);
         password=findViewById(R.id.passwordInputR);
@@ -71,11 +72,13 @@ public class Register extends AppCompatActivity {
                     map.put("correo",emailUser);
                     map.put("password",passUser);
 
-                    mFirestore.collection("user").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                Toast.makeText(Register.this, "Usuario creado correctamente", Toast.LENGTH_SHORT).show();
+
+                    mFirestore.collection("usuarios").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onSuccess(Void unused) {
+                        public void onComplete(@NonNull Task<Void> task) {
                             finish();
-                            startActivity(new Intent(Register.this,Login.class));//AQUI IRA LA PANTALLA DE EVENTOS CUANDO ESTE CREADA
+                            openLoginR(task);//AQUI IRA LA PANTALLA DE EVENTOS CUANDO ESTE CREADA
                             Toast.makeText(Register.this, "Bienvenido "+nameUser, Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -96,6 +99,11 @@ public class Register extends AppCompatActivity {
 
     public void openLogin(View v) {
         Intent intent = new Intent(Register.this, Login.class);
+        startActivity(intent);
+    }
+
+    public void openLoginR(Task<Void> v){
+        Intent intent=new Intent(Register.this,Login.class);
         startActivity(intent);
     }
 }

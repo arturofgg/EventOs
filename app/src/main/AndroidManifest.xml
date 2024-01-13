@@ -23,15 +23,13 @@
         <activity
             android:name=".Register"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Login">
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".Login"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Register">
+            android:screenOrientation="portrait">
         </activity>
 
 
