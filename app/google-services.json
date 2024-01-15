@@ -12,7 +12,12 @@
           "package_name": "com.example.eventos"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC6ot8MAuTllZ1mGtGoKZogXVvh0k59kl4"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
