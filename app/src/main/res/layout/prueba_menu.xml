@@ -16,13 +16,27 @@
         tools:context=".Menu">
 
         <!-- Contenido principal de tu aplicación -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Bienvenido a la aplicación!"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- Puedes agregar un Button para realizar alguna acción -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Haz clic aquí"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onButtonClick"/>
 
     </LinearLayout>
 
     <!-- Menú Lateral -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"

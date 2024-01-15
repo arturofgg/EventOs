@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
+import com.example.eventos.R;
 
 public class Menu extends AppCompatActivity {
 
@@ -24,16 +25,8 @@ public class Menu extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 // Maneja los eventos de clic en las opciones del menú aquí
-                switch (item.getItemId()) {
-                    case R.id.menu_option1:
-                        // Acción para la opción 1
-                        // Puedes agregar código para manejar la selección de la opción 1
-                        break;
-                    case R.id.menu_option2:
-                        // Acción para la opción 2
-                        // Puedes agregar código para manejar la selección de la opción 2
-                        break;
-                    // Agrega más casos según sea necesario
+                if (item.getItemId()==R.id.o1) {
+                } else if(item.getItemId()==R.id.o2){
                 }
 
                 // Cierra el menú después de hacer clic en una opción
