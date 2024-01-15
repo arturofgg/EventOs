@@ -32,6 +32,13 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".TusEventos"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Login">
+        </activity>
+
 
     </application>
 
