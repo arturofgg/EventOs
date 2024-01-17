@@ -160,7 +160,7 @@ public class Register extends AppCompatActivity {
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            updateUI(null);
+                            Toast.makeText(Register.this, "Sign-in failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
