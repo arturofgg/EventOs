@@ -1,16 +1,21 @@
 package com.example.eventos;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -19,15 +24,19 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 
 
 import com.yalantis.ucrop.UCrop;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TusEventos extends AppCompatActivity {
 
@@ -39,7 +48,7 @@ public class TusEventos extends AppCompatActivity {
 
     private UCrop.Options options;
 
-    private Uri imagenUriCamara;
+    private GoogleSignInClient mGoogleSignInClient;
 
 
 
@@ -48,18 +57,27 @@ public class TusEventos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tus_eventos);
 
-        mAuth=FirebaseAuth.getInstance();
-        logout=findViewById(R.id.logout);
-        user=findViewById(R.id.imageView2);
-        options=new UCrop.Options();
+        mAuth = FirebaseAuth.getInstance();
+        logout = findViewById(R.id.logout);
+        user = findViewById(R.id.imageView2);
+        options = new UCrop.Options();
 
         user.setScaleType(ImageView.ScaleType.FIT_XY);
 
         options.setCircleDimmedLayer(true);
+        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
         user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                abrirCamara();
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, REQUEST_CAMERA_PERMISSION);
             }
         });
 
@@ -92,6 +110,7 @@ public class TusEventos extends AppCompatActivity {
 
     private void logout() {
         mAuth.signOut();
+        mGoogleSignInClient.signOut();
         irLogin();
     }
 
@@ -101,53 +120,21 @@ public class TusEventos extends AppCompatActivity {
         finish();
     }
 
-    private void cambiarImagen() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-        } else {
-            abrirCamara();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                abrirCamara();
-            } else {
-                Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void abrirCamara(){
-        Intent galleryintent=new Intent(Intent.ACTION_PICK);
-        galleryintent.setType("image/*");
-        Intent cameraintent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Intent chooser=Intent.createChooser(galleryintent,"Eliga opcion");
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,new Intent[]{cameraintent});
-        startActivityForResult(chooser,REQUEST_CODE_GALLERY);
-    }
-
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode,resultCode,data);
+        ImageView user2=findViewById(R.id.imageView2);
         options.setCircleDimmedLayer(true);
-        if(requestCode==REQUEST_CODE_GALLERY && resultCode==RESULT_OK) {
-            Uri imagenSeleccionada;
-            if(data!=null && data.getData()!=null){
-                imagenSeleccionada=data.getData();
+        if(resultCode==RESULT_OK) {
+            if (requestCode==REQUEST_CAMERA_PERMISSION) {
+                Uri imageUri=data.getData();
+                user2.setImageURI(imageUri);
+                Uri destinoUri = Uri.fromFile(new File(getCacheDir(), "imagenRecortada"));
+                UCrop.of(imageUri, destinoUri).withOptions(options).start(this);
             }
-            else{
-                imagenSeleccionada=imagenUriCamara;
-            }
-            Uri destinoUri = Uri.fromFile(new File(getCacheDir(), "imagenRecortada"));
-            UCrop.of(imagenSeleccionada, destinoUri).withOptions(options).withMaxResultSize(137, 139).start(this);
-        }
-        else if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
+        }else if (requestCode==UCrop.REQUEST_CROP && resultCode==RESULT_OK) {
             Uri resultUri=UCrop.getOutput(data);
-            Glide.with(this).load(resultUri).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user);
+            Glide.with(this).load(resultUri).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
             guardarImagen(resultUri);
         }
     }
