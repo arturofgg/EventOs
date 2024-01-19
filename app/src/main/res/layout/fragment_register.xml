@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azulOscuro"
+    tools:context=".Register">
+
+    <TextView
+        android:id="@+id/EventosR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/inter"
+        android:text="EventOs"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/loginR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:onClick="openLogin"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EventosR" />
+
+    <Button
+        android:id="@+id/registerR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="96dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:text="Register"
+        android:textColor="@color/naranja"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EventosR" />
+
+    <EditText
+        android:id="@+id/usernameInputR"
+        android:layout_width="329dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginEnd="42dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Username"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/loginR" />
+
+    <EditText
+        android:id="@+id/emailInputR"
+        android:layout_width="329dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="42dp"
+        android:inputType="text"
+        android:hint="Email"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/emialR"
+        app:layout_constraintTop_toBottomOf="@+id/usernameInputR" />
+
+    <ImageView
+        android:id="@+id/emialR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:srcCompat="@drawable/email" />
+
+    <EditText
+        android:id="@+id/passwordInputR"
+        android:layout_width="329dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="42dp"
+        android:inputType="text"
+        android:password="true"
+        android:hint="Password"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lockR"
+        app:layout_constraintTop_toBottomOf="@+id/emailInputR" />
+
+
+    <ImageView
+        android:id="@+id/lockR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emialR"
+        app:srcCompat="@drawable/lock_pass" />
+
+    <EditText
+        android:id="@+id/repeatPasswordInputR"
+        android:layout_width="329dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="42dp"
+        android:inputType="text"
+        android:password="true"
+        android:hint="Repeat Password"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sLockR"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputR" />
+
+    <ImageView
+        android:id="@+id/sLockR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lockR"
+        app:srcCompat="@drawable/lock_pass" />
+
+    <CheckBox
+        android:id="@+id/checkBoxR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="5dp"
+        android:buttonTint="#FFFFFF"
+        android:text="Remember password"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputR" />
+
+    <Button
+        android:id="@+id/forgetPassR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="33dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:onClick="enlaceClicado"
+        android:text="Forget password?"
+        android:textColor="@color/naranjaOscuro"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxR"
+        app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputR" />
+
+    <Button
+        android:id="@+id/buttonRegister"
+        style="@style/botonlogin"
+        android:layout_width="342dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="33dp"
+        android:fontFamily="@font/inter_light"
+        android:text="Register"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxR" />
+
+    <TextView
+        android:id="@+id/textTermsR"
+        android:layout_width="229dp"
+        android:layout_height="27dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="91dp"
+        android:fontFamily="@font/inter"
+        android:text="By signing in you are agreeing our"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/TermsR"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
+
+    <Button
+        android:id="@+id/TermsR"
+        android:layout_width="208dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="46dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:onClick="enlaceClicado"
+        android:text="Term and privacy policy"
+        android:textColor="@color/naranjaOscuro"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTermsR" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="302dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/person" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
