@@ -17,7 +17,7 @@ public class LoginFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LRFragmentsActivity) getActivity()).loadFragment(new RegisterFragment());
+                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(1);
             }
         });
 
