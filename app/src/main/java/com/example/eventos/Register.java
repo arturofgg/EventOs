@@ -1,16 +1,23 @@
 package com.example.eventos;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.airbnb.lottie.L;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
@@ -27,6 +34,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +44,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class Register extends AppCompatActivity {
@@ -102,8 +114,7 @@ public class Register extends AppCompatActivity {
                     map.put("id",id);
                     map.put("usuario",nameUser);
                     map.put("correo",emailUser);
-                    map.put("password",passUser);
-
+                    map.put("foto",null);
                 Toast.makeText(Register.this, "Usuario creado correctamente", Toast.LENGTH_SHORT).show();
 
                     mFirestore.collection("usuarios").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,15 +165,73 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            irEventos();
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            FirebaseUser user=mAuth.getCurrentUser();
+                            Uri photoUrl=user.getPhotoUrl();
+                            uploadProfileImage(user.getUid(),photoUrl,new OnSuccessListener<Uri>(){
+                                public void onSuccess(Uri imageUrl){
+                                    Map<String,Object> datosUsuario=new HashMap<>();
+                                    datosUsuario.put("id",user.getUid());
+                                    datosUsuario.put("usuario",user.getDisplayName());
+                                    datosUsuario.put("correo",user.getEmail());
+                                    datosUsuario.put("foto",imageUrl.toString());
+
+                                    mFirestore.collection("usuarios").document(user.getUid()).set(datosUsuario).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            irEventos();
+                                            // Sign in success, update UI with the signed-in user's information
+                                            updateUI(user);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(Register.this, "Registro fallido", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            });
+
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(Register.this, "Sign-in failed", Toast.LENGTH_SHORT).show();
                         }
                     }
+
+                    private void uploadProfileImage(String userId, Uri profileImageUri, OnSuccessListener<Uri> onSuccessListener) {
+                        // Descargar la imagen desde la URL antes de cargarla en Firebase Storage
+                        Glide.with(Register.this)
+                                .asBitmap()
+                                .load(profileImageUri)
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Bitmap> transition) {
+                                        // Convertir el Bitmap a un ByteArrayOutputStream
+                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                        resource.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                                        // Crear un InputStream desde el ByteArrayOutputStream
+                                        InputStream inputStream = new ByteArrayInputStream(baos.toByteArray());
+
+                                        // Subir la imagen al Storage
+                                        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                                        StorageReference imageRef = storageRef.child("perfil/" + userId);
+
+                                        imageRef.putStream(inputStream)
+                                                .addOnSuccessListener(taskSnapshot -> {
+                                                    // Obtener la URL de la imagen después de subirla
+                                                    imageRef.getDownloadUrl().addOnSuccessListener(onSuccessListener);
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Log.e("UploadError", "Error al subir archivo", e);
+                                                    Toast.makeText(Register.this, "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                });
+                                    }
+
+                                });
+                    }
+
                 });
     }
 
