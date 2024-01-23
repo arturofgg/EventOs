@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -109,27 +110,43 @@ public class Register extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(emailUser, passUser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                    String id=mAuth.getCurrentUser().getUid();
-                    Map<String,Object> map=new HashMap<>();
-                    map.put("id",id);
-                    map.put("usuario",nameUser);
-                    map.put("correo",emailUser);
-                    map.put("foto",null);
-                Toast.makeText(Register.this, "Usuario creado correctamente", Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    String id = user.getUid();
 
-                    mFirestore.collection("usuarios").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    // Guardar la imagen predeterminada en Firebase Storage
+                    String imageUrl = obtenerUrlImagenPredeterminada();
+                    uploadProfileImage(id, Uri.parse(imageUrl), new OnSuccessListener<Uri>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            finish();
-                            openEventos(task);//AQUI IRA LA PANTALLA DE EVENTOS CUANDO ESTE CREADA
-                            Toast.makeText(Register.this, "Bienvenido "+nameUser, Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Register.this, "Error al guardar usuario", Toast.LENGTH_SHORT).show();
+                        public void onSuccess(Uri uri) {
+                            // Aquí puedes realizar cualquier acción adicional después de subir la imagen.
+                            // Por ejemplo, guardar otros datos del usuario en Firestore.
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("id", id);
+                            map.put("usuario", nameUser);
+                            map.put("correo", emailUser);
+                            map.put("foto", uri.toString());
+
+                            mFirestore.collection("usuarios").document(id).set(map)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            finish();
+                                            openEventos(task);
+                                            Toast.makeText(Register.this, "Bienvenido " + nameUser, Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(Register.this, "Error al guardar usuario", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         }
                     });
+                } else {
+                    Toast.makeText(Register.this, "Error al registrar", Toast.LENGTH_SHORT).show();
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -137,7 +154,6 @@ public class Register extends AppCompatActivity {
                 Toast.makeText(Register.this, "Error al registrar", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -233,6 +249,31 @@ public class Register extends AppCompatActivity {
                     }
 
                 });
+    }
+
+    private void uploadProfileImage(String userId, Uri profileImageUri, OnSuccessListener<Uri> onSuccessListener) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference imageRef = storageRef.child("perfil/" + userId);
+
+        // Subir la imagen al Storage
+        imageRef.putFile(profileImageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Obtener la URL de la imagen después de subirla
+                    imageRef.getDownloadUrl().addOnSuccessListener(onSuccessListener);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("UploadError", "Error al subir archivo", e);
+                    Toast.makeText(Register.this, "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private String obtenerUrlImagenPredeterminada() {
+        Uri imagenPredeterminadaUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + getResources().getResourcePackageName(R.drawable.mas__2_)
+                + '/' + getResources().getResourceTypeName(R.drawable.mas__2_)
+                + '/' + getResources().getResourceEntryName(R.drawable.mas__2_));
+
+        return imagenPredeterminadaUri.toString();
     }
 
     @Override
