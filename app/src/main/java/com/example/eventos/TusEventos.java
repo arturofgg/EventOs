@@ -1,5 +1,7 @@
 package com.example.eventos;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +30,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,7 +47,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -53,7 +62,6 @@ public class TusEventos extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
     private ImageView user2;
-    private static final int PICK_IMAGE_REQUEST=1513;
     private static final int REQUEST_CAMERA_PERMISSION=2020;
 
     private UCrop.Options options;
@@ -67,11 +75,16 @@ public class TusEventos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tus_eventos);
 
-
+        mFirestore=FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         logout = findViewById(R.id.logout);
         user2 = findViewById(R.id.imageView2);
         options = new UCrop.Options();
+
+        FirebaseApp.initializeApp(/*context=*/ this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance());
 
         user2.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -110,45 +123,67 @@ public class TusEventos extends AppCompatActivity {
         if (Fuser == null) {
             irLogin();
         } else {
-            Uri photoUrl=Fuser.getPhotoUrl();
-            if(photoUrl!=null){
-                Glide.with(this).load(photoUrl).placeholder(R.drawable.gradientesplash).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
+            if(Fuser.getPhotoUrl()!=null){
+                loadFirebaseImage(Fuser.getPhotoUrl());
+            }else {
+                Uri imagenUri=obtenerNuevaImagenSeleccionada();
+                if(imagenUri!=null){
+                    cargarNuevaImagen(imagenUri);
+                }else {
+                    if(Fuser.getPhotoUrl()!=null){
+                        loadFirebaseImage(Fuser.getPhotoUrl());
+                    }
+                }
             }
-            Uri imagenUri = cargarImagen();
-            if (imagenUri != null) {
-                Glide.with(this).load(imagenUri).placeholder(R.drawable.gradientesplash).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
+
+            // Aquí es donde añades el código para descargar la imagen de Firebase Storage
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference pathReference = storageRef.child("perfil/"+Fuser.getUid());
+
+            File localFile = null;
+            try {
+                localFile = File.createTempFile("images", "jpg");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+            File finalLocalFile = localFile;
+            pathReference.getFile(localFile)
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            // El archivo se ha descargado con éxito
+                            Uri downloadedImageUri = Uri.fromFile(finalLocalFile);
+                            cargarNuevaImagen(downloadedImageUri);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // El archivo no se ha descargado correctamente
+                        }
+                    });
         }
     }
 
-// Cargar imagen de perfil al iniciar sesión
-    private void cargarImagenDePerfil(Uri nuevaImagen) {
-        subirFoto(nuevaImagen);
-        guardarImagen(nuevaImagen);
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // Obtener la URL de la imagen de Firestore
-            mFirestore.collection("usuarios")
-                    .document(currentUser.getUid())
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        String fotoUrl = documentSnapshot.getString("foto");
-                        if (fotoUrl != null) {
-                            // Cargar la imagen en el ImageView utilizando Glide
-                            Glide.with(this)
-                                    .load(fotoUrl)
-                                    .placeholder(R.drawable.gradientesplash)
-                                    .circleCrop()
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
-                                    .into(user2);
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        // Manejar errores al recuperar la URL de la imagen
-                        Toast.makeText(this, "Error al cargar la imagen de perfil", Toast.LENGTH_SHORT).show();
-                    });
+
+    private void cargarNuevaImagen(Uri imagenUri) {
+        Glide.with(this)
+                .load(imagenUri)
+                .placeholder(R.drawable.gradientesplash)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(user2);
+        Glide.get(getApplicationContext()).clearMemory();
+    }
+
+
+    private Uri obtenerNuevaImagenSeleccionada() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String imagenUriStr = sharedPref.getString("imagenUri", null);
+        if (imagenUriStr != null) {
+            return Uri.parse(imagenUriStr);
         }
+        return null;
     }
 
     private void logout() {
@@ -167,22 +202,54 @@ public class TusEventos extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode,int resultCode,Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         options.setCircleDimmedLayer(true);
-        if(resultCode==RESULT_OK) {
-            if (requestCode==REQUEST_CAMERA_PERMISSION) {
-                Uri imageUri=data.getData();
-                user2.setImageURI(imageUri);
-                Uri destinoUri = Uri.fromFile(new File(getCacheDir(), "imagenRecortada"));
-                UCrop.of(imageUri, destinoUri).withOptions(options).start(this);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CAMERA_PERMISSION) {
+                Uri imageUri = data.getData();
+                if (imageUri != null) {
+                    user2.setImageURI(imageUri);
+
+                    Uri destinoUri = Uri.fromFile(new File(getCacheDir(), "imagenRecortada"));
+                    UCrop.of(imageUri, destinoUri).withOptions(options).start(this);
+                } else {
+                    // Puede que haya casos donde la imagenUri sea nula, debes manejarlo adecuadamente
+                    Toast.makeText(this, "Error al obtener la imagen de la cámara", Toast.LENGTH_SHORT).show();
+                }
+            } else if (requestCode == UCrop.REQUEST_CROP) {
+                handleCropResult(data);
             }
-        }else if (requestCode==UCrop.REQUEST_CROP && resultCode==RESULT_OK) {
-            Uri resultUri=UCrop.getOutput(data);
-            Glide.with(this).load(resultUri).placeholder(R.drawable.gradientesplash).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
-            cambiarFotoPerfil(resultUri);
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            // Manejar el error del recorte
+            final Throwable cropError = UCrop.getError(data);
+            if (cropError != null) {
+                Log.e("UCrop", "Error al recortar la imagen", cropError);
+                Toast.makeText(this, "Error al recortar la imagen", Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
+    private void handleCropResult(Intent data) {
+        final Uri resultUri = UCrop.getOutput(data);
+
+        if (resultUri != null) {
+            Glide.with(this)
+                    .load(resultUri)
+                    .placeholder(R.drawable.gradientesplash)
+                    .circleCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(user2);
+
+            cambiarFotoPerfil(resultUri);
+        } else {
+            Toast.makeText(this, "Error al obtener la imagen recortada", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private void subirFoto(Uri resultUri) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -210,11 +277,24 @@ public class TusEventos extends AppCompatActivity {
                                 datosUsuario.put("foto", fotoUrl);
 
                                 FirebaseUser currentUser = mAuth.getCurrentUser();
-                                if (currentUser != null) {
+                                if (currentUser != null && mFirestore!=null) {
                                     mFirestore.collection("usuarios").document(currentUser.getUid()).update(datosUsuario).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(TusEventos.this, "Foto guardada correctamente", Toast.LENGTH_SHORT).show();
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setPhotoUri(Uri.parse(fotoUrl)) // Aquí debes poner la URL de la nueva foto
+                                                    .build();
+
+                                            currentUser.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Log.d(TAG, "User profile updated.");
+                                                            }
+                                                        }
+                                                    });
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -245,25 +325,26 @@ public class TusEventos extends AppCompatActivity {
 
     private void cambiarFotoPerfil(Uri nuevaImagenUri) {
         subirFoto(nuevaImagenUri);
-        guardarImagen(nuevaImagenUri);
-    }
-
-    private void guardarImagen(Uri imagenUri) {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("imagenUri", imagenUri.toString());
-        editor.apply();
-    }
-
-    private Uri cargarImagen() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String imagenUriStr = sharedPref.getString("imagenUri", null);
-        if (imagenUriStr != null) {
-            return Uri.parse(imagenUriStr);
-        } else {
-            return null;
+        FirebaseUser currentUser=mAuth.getCurrentUser();
+        if(currentUser!=null){
+            guardarImagen(nuevaImagenUri,currentUser.getUid());
         }
     }
+
+    private void guardarImagen(Uri imagenUri,String userId) {
+        FirebaseUser currentUser=mAuth.getCurrentUser();
+        if(currentUser!=null && currentUser.getUid().equals(userId)) {
+            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("imagenUri", imagenUri.toString());
+            editor.apply();
+        }
+    }
+
+    private void loadFirebaseImage(Uri photoUrl){
+        Glide.with(this).load(photoUrl).placeholder(R.drawable.gradientesplash).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
+    }
+
 
 
 

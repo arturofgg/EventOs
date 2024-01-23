@@ -75,5 +75,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.3.0")
     implementation("com.github.yalantis:ucrop:2.2.8-native")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    implementation("com.google.firebase:firebase-appcheck:17.0.0")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+
 
 }
