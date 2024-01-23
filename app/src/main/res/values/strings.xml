@@ -1,15 +1,5 @@
 <resources>
     <string name="app_name">EventOs</string>
-    <string name="title_activity_tus_eventos">TusEventos</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="event_name_hint">Nombre del evento</string>
-    <string name="event_location_hint">Ubicación del evento</string>
-    <string name="event_time_hint">Hora del evento</string>
-    <string name="create_event_button_text">Crear evento</string>
-
-
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
 </resources>
