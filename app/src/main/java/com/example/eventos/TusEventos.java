@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -67,6 +68,7 @@ public class TusEventos extends AppCompatActivity {
     private UCrop.Options options;
 
     private GoogleSignInClient mGoogleSignInClient;
+    private Drawable persona;
 
 
 
@@ -97,6 +99,15 @@ public class TusEventos extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+
+        int idImagenPredeterminada = getResources().getIdentifier("person", "drawable", getPackageName());
+
+        if (idImagenPredeterminada != 0) {
+            persona = getResources().getDrawable(idImagenPredeterminada);
+        } else {
+            Toast.makeText(this, "Imagen no dispobible", Toast.LENGTH_SHORT).show();
+        }
+
         user2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

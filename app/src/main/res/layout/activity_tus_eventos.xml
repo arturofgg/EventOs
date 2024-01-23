@@ -67,6 +67,6 @@
         android:layout_marginTop="61dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:srcCompat="@drawable/person" />
+        app:srcCompat="@drawable/mas__2_" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
