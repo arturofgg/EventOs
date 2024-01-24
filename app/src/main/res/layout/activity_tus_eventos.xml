@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.923"
-        app:srcCompat="@drawable/mas__2_" />
+        app:srcCompat="@drawable/masnaranja" />
 
     <!-- Faltaria hacer que solo aparezca cuando  -->
     <TextView
@@ -67,6 +67,6 @@
         android:layout_marginTop="61dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:srcCompat="@drawable/mas__2_" />
+        app:srcCompat="@drawable/masnaranja" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
