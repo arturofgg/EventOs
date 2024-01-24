@@ -269,9 +269,9 @@ public class Register extends AppCompatActivity {
 
     private String obtenerUrlImagenPredeterminada() {
         Uri imagenPredeterminadaUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
-                "://" + getResources().getResourcePackageName(R.drawable.mas__2_)
-                + '/' + getResources().getResourceTypeName(R.drawable.mas__2_)
-                + '/' + getResources().getResourceEntryName(R.drawable.mas__2_));
+                "://" + getResources().getResourcePackageName(R.drawable.masnaranja)
+                + '/' + getResources().getResourceTypeName(R.drawable.masnaranja)
+                + '/' + getResources().getResourceEntryName(R.drawable.masnaranja));
 
         return imagenPredeterminadaUri.toString();
     }
