@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -31,8 +33,10 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayInputStream;
@@ -45,6 +49,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -99,8 +104,35 @@ public class Register extends AppCompatActivity {
 
                 if(nameUser.isEmpty() || emailUser.isEmpty() || passUser.isEmpty()){
                     Toast.makeText(Register.this,"Por favor rellene todos los campos",Toast.LENGTH_SHORT).show();
-                }else{
-                    registerUser(nameUser,emailUser,passUser);
+                }else {
+                    mFirestore.collection("usuarios").whereEqualTo("usuario", nameUser).get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if (!task.getResult().isEmpty()) {
+                                            // El nombre de usuario ya está en uso.
+                                            Toast.makeText(Register.this, "El nombre de usuario ya está en uso", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            // El nombre de usuario no está en uso.
+                                            // Aquí puedes continuar con el registro del usuario.
+                                            if (passUser.equals(rpassUser)) {
+                                                registerUser(nameUser, emailUser, passUser);
+                                            } else {
+                                                Toast.makeText(Register.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(Register.this, "Error al registrar", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Register.this, "El codigo llega hasta aqui", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
         });
@@ -145,13 +177,18 @@ public class Register extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast.makeText(Register.this, "Error al registrar", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(Register.this, "Error al registrar 1", Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Register.this, "Error al registrar", Toast.LENGTH_SHORT).show();
+                if(e instanceof FirebaseAuthUserCollisionException){
+                    Toast.makeText(Register.this, "El correo electrónico ya está en uso", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(Register.this, "Error al registrar 2", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -310,5 +347,4 @@ public class Register extends AppCompatActivity {
         Intent intent=new Intent(Register.this,TusEventos.class);
         startActivity(intent);
     }
-
 }
