@@ -10,8 +10,10 @@ import androidx.viewpager.widget.ViewPager;
 
 public class LRFragmentsActivity extends AppCompatActivity {
 
-    public ViewPager viewPager;  // Ahora es público
-    private Fragment[] fragments = {new LoginFragment(), new RegisterFragment()};
+    //El viewpager sirve para moverse entre los fragemnts que peretenecen a esta seccion.
+    public ViewPager viewPager;
+   //Array de fragments para moverse por estas paginas
+    private Fragment[] fragments = {new LoginFragment(), new RegisterFragment(), new RecuperarContrasenaFragment()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class LRFragmentsActivity extends AppCompatActivity {
             }
         });
 
-        // Establecer la transformación de página personalizada:
+        // Establecer la transformación de página personalizada (se puede cambiar):
         viewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
             private static final float MIN_SCALE = 0.85f;
             private static final float MIN_ALPHA = 0.5f;
