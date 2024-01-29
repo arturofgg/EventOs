@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 public class LRFragmentsActivity extends AppCompatActivity {
 
     //El viewpager sirve para moverse entre los fragemnts que peretenecen a esta seccion.
-    public ViewPager viewPager;
+    public CustomViewPager viewPager;
    //Array de fragments para moverse por estas paginas
     private Fragment[] fragments = {new LoginFragment(), new RegisterFragment(), new RecuperarContrasenaFragment()};
 
@@ -20,7 +20,7 @@ public class LRFragmentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lrfragments);
 
-        viewPager = (ViewPager) findViewById(R.id.fragment_container);
+        viewPager = (CustomViewPager ) findViewById(R.id.fragment_container);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -49,6 +49,8 @@ public class LRFragmentsActivity extends AppCompatActivity {
                     view.setScaleX(scaleFactor);
                     view.setScaleY(scaleFactor);
                     view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+
+
                 }
             }
         });
