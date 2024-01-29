@@ -24,14 +24,23 @@ public class LRFragmentsActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return fragments[position];
+                switch (position){
+                    case 0:
+                        return new LoginFragment();
+                    case 1:
+                        return new RegisterFragment();
+                    case 2:
+                        return new RecuperarContrasenaFragment();
+                    default:
+                        return null;
+                }
             }
-
-            @Override
-            public int getCount() {
-                return fragments.length;
+            public int getCount(){
+                return 3;
             }
         });
+
+        viewPager.setCurrentItem(1);
 
         // Establecer la transformación de página personalizada (se puede cambiar):
         viewPager.setPageTransformer(true, new ViewPager.PageTransformer() {

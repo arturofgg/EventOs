@@ -179,7 +179,6 @@ public class TusEventos extends AppCompatActivity {
     private void cargarNuevaImagen(Uri imagenUri) {
         Glide.with(this)
                 .load(imagenUri)
-                .placeholder(R.drawable.gradientesplash)
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
@@ -207,7 +206,7 @@ public class TusEventos extends AppCompatActivity {
     }
 
     private void irLogin(){
-        Intent intent=new Intent(TusEventos.this,Login.class);
+        Intent intent=new Intent(TusEventos.this, LRFragmentsActivity.class);
         startActivity(intent);
         finish();
     }
@@ -248,7 +247,6 @@ public class TusEventos extends AppCompatActivity {
         if (resultUri != null) {
             Glide.with(this)
                     .load(resultUri)
-                    .placeholder(R.drawable.gradientesplash)
                     .circleCrop()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -353,7 +351,7 @@ public class TusEventos extends AppCompatActivity {
     }
 
     private void loadFirebaseImage(Uri photoUrl){
-        Glide.with(this).load(photoUrl).placeholder(R.drawable.gradientesplash).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
+        Glide.with(this).load(photoUrl).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
     }
 
 

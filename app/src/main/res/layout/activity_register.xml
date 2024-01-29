@@ -69,7 +69,6 @@
         android:layout_width="342dp"
         android:layout_height="55dp"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="33dp"
         android:fontFamily="@font/inter_light"
         android:text="Register"
@@ -78,7 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxR" />
+        tools:layout_editor_absoluteY="478dp" />
 
     <ImageView
         android:id="@+id/lockR"
@@ -124,36 +123,6 @@
         app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toEndOf="@+id/sLockR"
         app:layout_constraintTop_toBottomOf="@+id/passwordInputR" />
-
-    <CheckBox
-        android:id="@+id/checkBoxR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
-        android:buttonTint="#FFFFFF"
-        android:text="Remember password"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputR" />
-
-    <Button
-        android:id="@+id/forgetPassR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="33dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:onClick="enlaceClicado"
-        android:text="Forget password?"
-        android:textColor="@color/naranjaOscuro"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/checkBoxR"
-        app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputR" />
 
     <EditText
         android:id="@+id/passwordInputR"
