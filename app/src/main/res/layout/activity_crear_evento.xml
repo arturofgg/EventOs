@@ -49,24 +49,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etUbicacion" />
 
-    <Spinner
-        android:id="@+id/spinnerHora"
-        android:layout_width="102dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
-
-    <Spinner
-        android:id="@+id/spinnerHora2"
-        android:layout_width="102dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="76dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
-
     <EditText
         android:id="@+id/etUbicacion"
         android:layout_width="391dp"
@@ -98,6 +80,37 @@
         android:text="Horario:"
         app:autoSizeTextType="uniform"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
+
+
+    <TextView
+        android:id="@+id/hora_ini"
+        android:layout_width="123dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:contextClickable="false"
+        android:ems="10"
+        android:hint="Hora inicial"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
+
+    <TextView
+        android:id="@+id/hora_fin"
+        android:layout_width="123dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Hora final"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/hora_ini"
         app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
 
 
