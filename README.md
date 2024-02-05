@@ -10,5 +10,5 @@ La aplicación, a parte de un sistema de registro e inicio de sesión, consta de
 3. **Crea tus eventos**: Una página donde puedes crear tus eventos para que otras personas se apunten.
 
 ## Capturas de pantalla
-Se han desarrollado disintos prototipos de diseño:
+Prototipos:
 ![image](https://github.com/arturofgg/EventOs/assets/113636946/e7e60f36-2234-4f0e-b463-de299cfc1c56)
