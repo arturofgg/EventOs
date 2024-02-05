@@ -1,4 +1,4 @@
-package com.example.eventos;
+package com.anarlu.eventos;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.eventos", appContext.getPackageName());
+        assertEquals("com.anarlu.eventos", appContext.getPackageName());
     }
 }
