@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.eventos"
+    namespace = "com.anarlu.eventos"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.eventos"
+        applicationId = "com.anarlu.eventos"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

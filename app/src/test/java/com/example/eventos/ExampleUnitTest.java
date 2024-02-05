@@ -1,4 +1,4 @@
-package com.example.eventos;
+package com.anarlu.eventos;
 
 import org.junit.Test;
 
