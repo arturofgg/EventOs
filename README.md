@@ -12,5 +12,3 @@ La aplicación, a parte de un sistema de registro e inicio de sesión, consta de
 ## Capturas de pantalla
 Se han desarrollado disintos prototipos de diseño:
 ![image](https://github.com/arturofgg/EventOs/assets/113636946/e7e60f36-2234-4f0e-b463-de299cfc1c56)
-![image](https://github.com/arturofgg/EventOs/assets/113636946/b6d8f2c2-3cc4-4ed0-ae4d-a861c015a300)
-![image](https://github.com/arturofgg/EventOs/assets/113636946/442f5df3-3be5-4e5a-871b-b8411a191b55)
