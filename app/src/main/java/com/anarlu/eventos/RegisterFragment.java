@@ -1,25 +1,27 @@
-package com.example.eventos;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+package com.anarlu.eventos;
 
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.transition.Transition;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.airbnb.lottie.L;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
@@ -31,9 +33,13 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,15 +47,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-
-public class Register extends AppCompatActivity {
+public class RegisterFragment extends Fragment {
 
     private Button botonregistro;
     private SignInButton googleR;
@@ -62,25 +60,27 @@ public class Register extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        FirebaseApp.initializeApp(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
+
+        Button loginButton = view.findViewById(R.id.loginR);
+
+        FirebaseApp.initializeApp(getActivity());
         mFirestore=FirebaseFirestore.getInstance();
         mAuth=FirebaseAuth.getInstance();
-        usuario=findViewById(R.id.usernameInputR);
-        correo=findViewById(R.id.emailInputR);
-        password=findViewById(R.id.passwordInputR);
-        rpassword=findViewById(R.id.repeatPasswordInputR);
-        botonregistro=findViewById(R.id.buttonRegister);
-        googleR=findViewById(R.id.googleR);
+        usuario=view.findViewById(R.id.usernameInputR);
+        correo=view.findViewById(R.id.emailInputR);
+        password=view.findViewById(R.id.passwordInputR);
+        rpassword=view.findViewById(R.id.repeatPasswordInputR);
+        botonregistro=view.findViewById(R.id.buttonRegister);
+        googleR=view.findViewById(R.id.googleR);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),gso);
 
         googleR.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,12 +98,48 @@ public class Register extends AppCompatActivity {
                 String rpassUser=rpassword.getText().toString().trim();
 
                 if(nameUser.isEmpty() || emailUser.isEmpty() || passUser.isEmpty()){
-                    Toast.makeText(Register.this,"Por favor rellene todos los campos",Toast.LENGTH_SHORT).show();
-                }else{
-                    registerUser(nameUser,emailUser,passUser);
+                    Toast.makeText(getActivity(),"Por favor rellene todos los campos",Toast.LENGTH_SHORT).show();
+                }else {
+                    mFirestore.collection("usuarios").whereEqualTo("usuario", nameUser).get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if (!task.getResult().isEmpty()) {
+                                            // El nombre de usuario ya está en uso.
+                                            Toast.makeText(getActivity(), "El nombre de usuario ya está en uso", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            // El nombre de usuario no está en uso.
+                                            // Aquí puedes continuar con el registro del usuario.
+                                            if (passUser.equals(rpassUser)) {
+                                                registerUser(nameUser, emailUser, passUser);
+                                            } else {
+                                                Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(getActivity(), "Error al registrar", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), "El codigo llega hasta aqui", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
         });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(0);  // Cambia a LoginFragment
+            }
+        });
+
+        return view;
     }
 
     private void registerUser(String nameUser, String emailUser, String passUser) {
@@ -131,27 +167,31 @@ public class Register extends AppCompatActivity {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            finish();
                                             openEventos(task);
-                                            Toast.makeText(Register.this, "Bienvenido " + nameUser, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "Bienvenido " + nameUser, Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(Register.this, "Error al guardar usuario", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "Error al guardar usuario", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
                     });
                 } else {
-                    Toast.makeText(Register.this, "Error al registrar", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getActivity(), "Error al registrar 1", Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Register.this, "Error al registrar", Toast.LENGTH_SHORT).show();
+                if(e instanceof FirebaseAuthUserCollisionException){
+                    Toast.makeText(getActivity(), "El correo electrónico ya está en uso", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getActivity(), "Error al registrar 2", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -169,7 +209,7 @@ public class Register extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, "Error de inicio de sesion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error de inicio de sesion", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -177,7 +217,7 @@ public class Register extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -201,7 +241,7 @@ public class Register extends AppCompatActivity {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(Register.this, "Registro fallido", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "Registro fallido", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -211,13 +251,13 @@ public class Register extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(Register.this, "Sign-in failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Sign-in failed", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     private void uploadProfileImage(String userId, Uri profileImageUri, OnSuccessListener<Uri> onSuccessListener) {
                         // Descargar la imagen desde la URL antes de cargarla en Firebase Storage
-                        Glide.with(Register.this)
+                        Glide.with(getActivity())
                                 .asBitmap()
                                 .load(profileImageUri)
                                 .into(new SimpleTarget<Bitmap>() {
@@ -241,7 +281,7 @@ public class Register extends AppCompatActivity {
                                                 })
                                                 .addOnFailureListener(e -> {
                                                     Log.e("UploadError", "Error al subir archivo", e);
-                                                    Toast.makeText(Register.this, "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                                 });
                                     }
 
@@ -263,7 +303,7 @@ public class Register extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     Log.e("UploadError", "Error al subir archivo", e);
-                    Toast.makeText(Register.this, "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -285,12 +325,12 @@ public class Register extends AppCompatActivity {
     }
 
     public void openLogin(View v) {
-        Intent intent = new Intent(Register.this, Login.class);
+        Intent intent = new Intent(getActivity(), Login.class);
         startActivity(intent);
     }
 
     public void openEventos(Task<Void> v){
-        Intent intent=new Intent(Register.this,TusEventos.class);
+        Intent intent=new Intent(getActivity(),TusEventos.class);
         startActivity(intent);
     }
 
@@ -307,8 +347,7 @@ public class Register extends AppCompatActivity {
     }
 
     private void irEventos() {
-        Intent intent=new Intent(Register.this,TusEventos.class);
+        Intent intent=new Intent(getActivity(),TusEventos.class);
         startActivity(intent);
     }
-
 }

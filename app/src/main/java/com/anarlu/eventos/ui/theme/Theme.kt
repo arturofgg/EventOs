@@ -1,4 +1,4 @@
-package com.example.eventos.ui.theme
+package com.anarlu.eventos.ui.theme
 
 import android.app.Activity
 import android.os.Build

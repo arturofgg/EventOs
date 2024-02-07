@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.eventos"
+    namespace = "com.anarlu.eventos"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.eventos"
+        applicationId = "com.anarlu.eventos"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -77,6 +77,7 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.google.firebase:firebase-appcheck:17.0.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
+
 
 
 }

@@ -1,24 +1,19 @@
-package com.example.eventos;
+package com.anarlu.eventos;
 
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -43,13 +38,16 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -58,11 +56,15 @@ import com.yalantis.ucrop.UCrop;
 
 
 public class TusEventos extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private EventoAdapter adapter;
+    private List<Evento> eventos;
 
-    private Button logout;
+    private Button logout,borrar;
+
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-    private ImageView user2;
+    private ImageView user2,creacion;
     private static final int REQUEST_CAMERA_PERMISSION=2020;
 
     private UCrop.Options options;
@@ -77,11 +79,20 @@ public class TusEventos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tus_eventos);
 
+        recyclerView=findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        eventos=new ArrayList<>();
+        adapter=new EventoAdapter(eventos);
+        recyclerView.setAdapter(adapter);
+
         mFirestore=FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-       /* logout = findViewById(R.id.logout);
-        user2 = findViewById(R.id.imageView2);*/
+        logout = findViewById(R.id.logout);
+        user2 = findViewById(R.id.imageView2);
+        borrar=findViewById(R.id.delete);
         options = new UCrop.Options();
+        creacion=findViewById(R.id.imageView5);
 
         FirebaseApp.initializeApp(/*context=*/ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
@@ -125,6 +136,39 @@ public class TusEventos extends AppCompatActivity {
 
             }
         });
+
+        borrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                borrarUsuario();
+            }
+        });
+
+        creacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CrearNuevoEvento();
+            }
+        });
+
+        if(mAuth.getCurrentUser()!=null){
+            String userId=mAuth.getCurrentUser().getUid();
+            mFirestore.collection("Eventos").whereEqualTo("ID_usuario",userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        eventos.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Evento evento = document.toObject(Evento.class);
+                            eventos.add(evento);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -179,7 +223,6 @@ public class TusEventos extends AppCompatActivity {
     private void cargarNuevaImagen(Uri imagenUri) {
         Glide.with(this)
                 .load(imagenUri)
-                .placeholder(R.drawable.gradientesplash)
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
@@ -207,7 +250,7 @@ public class TusEventos extends AppCompatActivity {
     }
 
     private void irLogin(){
-        Intent intent=new Intent(TusEventos.this,Login.class);
+        Intent intent=new Intent(TusEventos.this, LRFragmentsActivity.class);
         startActivity(intent);
         finish();
     }
@@ -248,7 +291,6 @@ public class TusEventos extends AppCompatActivity {
         if (resultUri != null) {
             Glide.with(this)
                     .load(resultUri)
-                    .placeholder(R.drawable.gradientesplash)
                     .circleCrop()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -353,9 +395,32 @@ public class TusEventos extends AppCompatActivity {
     }
 
     private void loadFirebaseImage(Uri photoUrl){
-        Glide.with(this).load(photoUrl).placeholder(R.drawable.gradientesplash).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
+        Glide.with(this).load(photoUrl).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
     }
 
+    private void borrarUsuario(){
+        FirebaseUser user=mAuth.getCurrentUser();
+        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(TusEventos.this, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show();
+                    irLogin();
+                    finish();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(TusEventos.this, "Error al eliminar usaurio", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void CrearNuevoEvento(){
+        Intent intent=new Intent(TusEventos.this, CrearEvento.class);
+        startActivity(intent);
+    }
 
 
 

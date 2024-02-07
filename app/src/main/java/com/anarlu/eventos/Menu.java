@@ -1,4 +1,4 @@
-package com.example.eventos;
+package com.anarlu.eventos;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
-import com.example.eventos.R;
+import com.anarlu.eventos.R;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 
@@ -33,7 +33,7 @@ public class Menu extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                // Maneja los eventos de clic en las opciones del menú aquí
+                // Maneja los com.anarlu.eventos de clic en las opciones del menú aquí
                 if (item.getItemId()==R.id.o1) {
                 } else if(item.getItemId()==R.id.o2){
                 }
