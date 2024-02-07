@@ -79,8 +79,8 @@ public class TusEventos extends AppCompatActivity {
 
         mFirestore=FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        logout = findViewById(R.id.logout);
-        user2 = findViewById(R.id.imageView2);
+       /* logout = findViewById(R.id.logout);
+        user2 = findViewById(R.id.imageView2);*/
         options = new UCrop.Options();
 
         FirebaseApp.initializeApp(/*context=*/ this);
