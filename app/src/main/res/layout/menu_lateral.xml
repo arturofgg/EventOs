@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".Menu">
+        tools:context=".BaseActivity">
 
         <!-- Contenido principal de tu aplicación -->
 
@@ -24,20 +24,11 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Bienvenido a la aplicación!"
-            android:textSize="18sp"
-            android:layout_gravity="center_horizontal" />
-
-        <!-- Puedes agregar un Button para realizar alguna acción -->
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Haz clic aquí"
-            android:layout_gravity="center_horizontal"
-            android:onClick="onButtonClick"/>
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

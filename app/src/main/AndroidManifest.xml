@@ -22,7 +22,7 @@
             android:name=".Item_Evento"
             android:exported="false" />
         <activity
-            android:name=".Menu"
+            android:name=".BaseActivity"
             android:exported="true"
             android:screenOrientation="portrait"></activity>
         <activity
