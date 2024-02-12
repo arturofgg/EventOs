@@ -30,7 +30,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        // Habilitar el deslizamiento a la izquierda cuando se carga la vista
+        // Deshabilita el deslizamiento a la izquierda cuando se carga la vista
         ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeLeft(false);
         // Habilitar el deslizamiento a la derecha cuando se carga la vista
         ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeRight(true);

@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+
     <!-- Menú Lateral -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
@@ -18,24 +19,12 @@
         app:menu="@menu/nav_menu"/>
 
     <!-- Contenido Principal -->
-    <RelativeLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!-- Ajusta los márgenes superiores según sea necesario -->
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp" /> <!-- Ajusta este valor según sea necesario -->
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/bottom_navigation_menu" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+

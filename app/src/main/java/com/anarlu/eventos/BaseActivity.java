@@ -38,12 +38,11 @@ public class BaseActivity extends AppCompatActivity {
 
                 // Selecciona el fragmento basado en la opción del menú
                 if (item.getItemId() == R.id.o1) {
-                    fragment = new EventosFragment();
+                   // fragment = new EventosFragment();
                 } else if (item.getItemId() == R.id.o2) {
-                    fragment = new ChatFragment();
-                }else if (item.getItemId() == R.id.o2) {
-                    fragment = new MisEventosFragment();
+                   // fragment = new ChatFragment();
                 }
+
 
                 // Reemplaza el fragmento en el contenedor principal
                 if (fragment != null) {
