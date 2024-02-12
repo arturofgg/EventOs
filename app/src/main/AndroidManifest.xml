@@ -42,7 +42,6 @@
         <activity
             android:name=".TusEventos"
             android:exported="true"
-            android:parentActivityName=".Login"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CrearEvento"

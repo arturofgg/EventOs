@@ -1,5 +1,7 @@
 package com.anarlu.eventos;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -76,7 +78,7 @@ public class RegisterFragment extends Fragment {
         googleR=view.findViewById(R.id.googleR);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com")
+                .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -209,7 +211,9 @@ public class RegisterFragment extends Fragment {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
+                Log.e(TAG, "Error al iniciar sesión con Google: "+e.getStatusCode()+" mensaje" + e.getMessage());
                 Toast.makeText(getActivity(), "Error de inicio de sesion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error de inicio de sesion "+e.getStatusCode(), Toast.LENGTH_SHORT).show();
             }
         }
     }
