@@ -11,8 +11,8 @@ import androidx.viewpager.widget.ViewPager;
 public class LRFragmentsActivity extends AppCompatActivity {
 
     //El viewpager sirve para moverse entre los fragemnts que peretenecen a esta seccion.
-    public ViewPager viewPager;
-   //Array de fragments para moverse por estas paginas
+    public CustomViewPager viewPager;
+    //Array de fragments para moverse por estas paginas
     private Fragment[] fragments = {new LoginFragment(), new RegisterFragment(), new RecuperarContrasenaFragment()};
 
     @Override
@@ -20,11 +20,11 @@ public class LRFragmentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lrfragments);
 
-        viewPager = (ViewPager) findViewById(R.id.fragment_container);
+        viewPager = findViewById(R.id.fragment_container);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         return new LoginFragment();
                     case 1:
@@ -35,12 +35,35 @@ public class LRFragmentsActivity extends AppCompatActivity {
                         return null;
                 }
             }
-            public int getCount(){
+
+            @Override
+            public int getCount() {
                 return 3;
             }
         });
 
-        viewPager.setCurrentItem(1);
+        // Establecer el fragmento actual como el de inicio de sesión (índice 0)
+        viewPager.setCurrentItem(0);
+
+        // Añadir un OnPageChangeListener
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) { // Si el fragmento actual es el de registro
+                    viewPager.setEnableSwipeRight(false); // Deshabilitar deslizamiento a la derecha
+                } else {
+                    viewPager.setEnableSwipeRight(true); // Habilitar deslizamiento a la derecha para otros fragmentos
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
 
         // Establecer la transformación de página personalizada (se puede cambiar):
         viewPager.setPageTransformer(true, new ViewPager.PageTransformer() {

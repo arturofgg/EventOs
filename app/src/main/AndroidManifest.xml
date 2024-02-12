@@ -42,7 +42,6 @@
         <activity
             android:name=".TusEventos"
             android:exported="true"
-            android:parentActivityName=".Login"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CrearEvento"
@@ -53,6 +52,11 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".PaginaPrincipal"
+            android:exported="true"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

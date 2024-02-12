@@ -63,6 +63,11 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
+        // Habilitar el deslizamiento a la izquierda cuando se carga la vista
+        ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeLeft(true);
+        // Habilitar el deslizamiento a la derecha cuando se carga la vista
+        ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeRight(false);
+
         Button loginButton = view.findViewById(R.id.loginR);
 
         FirebaseApp.initializeApp(getActivity());
@@ -135,7 +140,10 @@ public class RegisterFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(0);  // Cambia a LoginFragment
+                // Habilitar el deslizamiento a la izquierda
+                ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeLeft(true);
+                // Cambiar a la página de inicio de sesión
+                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(0);
             }
         });
 
@@ -322,11 +330,6 @@ public class RegisterFragment extends Fragment {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
-    }
-
-    public void openLogin(View v) {
-        Intent intent = new Intent(getActivity(), Login.class);
-        startActivity(intent);
     }
 
     public void openEventos(Task<Void> v){

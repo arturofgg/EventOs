@@ -22,25 +22,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 
 public class LoginFragment extends Fragment {
-
     private Button login;
     private EditText pass,mail;
-
     private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        //de login a register
-        Button registerButton = view.findViewById(R.id.register);
+        // Habilitar el deslizamiento a la izquierda cuando se carga la vista
+        ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeLeft(false);
+        // Habilitar el deslizamiento a la derecha cuando se carga la vista
+        ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeRight(true);
 
+        Button registerButton = view.findViewById(R.id.register);
         login=view.findViewById(R.id.buttonLogin);
         mail=view.findViewById(R.id.emailInput);
         pass=view.findViewById(R.id.passwordInput);
-
         mAuth=FirebaseAuth.getInstance();
-
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,10 +55,13 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        //de login a register
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //indico dentro del array de LRFragments que al darle click a donde ira es a register
+                // Habilitar el deslizamiento a la derecha
+                ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeRight(true);
+                // Cambiar a la página de registro
                 ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(1);
             }
         });
@@ -69,16 +71,14 @@ public class LoginFragment extends Fragment {
         forgetPassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //indico dentro del array de LRFragments que al darle click a donde ira es a recuperar contraseña
-
+                // Deshabilitar el deslizamiento a la derecha
+                ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeRight(false);
+                // Cambiar a la página de recuperación de contraseña
                 ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(2);
             }
         });
-
         return view;
     }
-
-
 
     private void loginUser(String emailUser,String passUser){
         mAuth.signInWithEmailAndPassword(emailUser,passUser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -102,14 +102,6 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-
-
-    }
-
-
-    public void openSignup(View v) {
-        Intent intent = new Intent(getActivity(), Register.class);
-        startActivity(intent);
     }
 
     private void irEventos() {

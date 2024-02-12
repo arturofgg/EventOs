@@ -1,15 +1,15 @@
 package com.anarlu.eventos;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class PaginaPrincipal extends AppCompatActivity {
+public class PaginaPrincipal extends BaseActivity { // Cambio aquí a BaseActivity
 
     private BottomNavigationView bottomNavigationView;
 

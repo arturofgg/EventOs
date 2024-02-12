@@ -5,6 +5,12 @@
       <entry key="BaseActivity">
         <State />
       </entry>
+      <entry key="LRFragmentsActivity">
+        <State />
+      </entry>
+      <entry key="PaginaPrincipal">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
