@@ -31,9 +31,9 @@ public class splash extends AppCompatActivity {
             public void run() {
                 // Animación de rotación durante 4 segundos con pausa de 0.5 segundos entre cada vuelta
                 RequestOptions requestOptions = new RequestOptions();
-                requestOptions.placeholder(R.drawable.ven); // Coloca aquí tu imagen de placeholder
+                requestOptions.placeholder(R.drawable.ven2); // Coloca aquí tu imagen de placeholder
                 Glide.with(splash.this)
-                        .load(R.drawable.ven) // Coloca aquí tu imagen
+                        .load(R.drawable.ven2) // Coloca aquí tu imagen
                         .apply(requestOptions)
                         .into(ven);
 
@@ -52,9 +52,9 @@ public class splash extends AppCompatActivity {
             public void run() {
                 // Animación de rotación durante 4 segundos con pausa de 0.5 segundos entre cada vuelta
                 RequestOptions requestOptions = new RequestOptions();
-                requestOptions.placeholder(R.drawable.brujula); // Coloca aquí tu imagen de placeholder
+                requestOptions.placeholder(R.drawable.brujulabien); // Coloca aquí tu imagen de placeholder
                 Glide.with(splash.this)
-                        .load(R.drawable.brujula) // Coloca aquí tu imagen
+                        .load(R.drawable.brujulabien) // Coloca aquí tu imagen
                         .apply(requestOptions)
                         .into(brujula);
 

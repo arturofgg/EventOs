@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "90656351526",
-    "project_id": "eventos-a333d",
-    "storage_bucket": "eventos-a333d.appspot.com"
+    "project_number": "606138593322",
+    "project_id": "eventos-6824a",
+    "storage_bucket": "eventos-6824a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:90656351526:android:00b36b807a010f56990de7",
+        "mobilesdk_app_id": "1:606138593322:android:68cc7021c63f9e0a241353",
         "android_client_info": {
           "package_name": "com.anarlu.eventos"
         }
       },
       "oauth_client": [
         {
-          "client_id": "90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com",
+          "client_id": "606138593322-204ff2864dh5ik35gaml025ra2257q5m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anarlu.eventos",
+            "certificate_hash": "740663eb71e9c41c9055e679f5c217f4b7dfff42"
+          }
+        },
+        {
+          "client_id": "606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC6ot8MAuTllZ1mGtGoKZogXVvh0k59kl4"
+          "current_key": "AIzaSyBQlOYsuKaQ5J0RnJgOy1XSJH_dsTFfV5U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com",
+              "client_id": "606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
