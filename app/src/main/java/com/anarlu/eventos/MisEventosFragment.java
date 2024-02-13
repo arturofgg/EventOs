@@ -3,11 +3,13 @@ package com.anarlu.eventos;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,11 +21,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -69,6 +74,7 @@ public class MisEventosFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
     private ImageView user2,creacion;
+    private Toolbar toolbar;
     private static final int REQUEST_CAMERA_PERMISSION=2020;
 
     private UCrop.Options options;
@@ -77,11 +83,16 @@ public class MisEventosFragment extends Fragment {
     private Drawable persona;
 
 
-
+    @SuppressLint("MissingInflatedId")
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_tus_eventos, container, false);
+        View view = inflater.inflate(R.layout.fragment_mis_eventos, container, false);
+
+        // Configuración de la Toolbar
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         recyclerView=view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -177,6 +188,21 @@ public class MisEventosFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Configuración de la Toolbar
+        toolbar.setTitle("Mis Eventos");
+
+        creacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CrearNuevoEvento();
+            }
+        });
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         FirebaseUser Fuser = mAuth.getCurrentUser();
@@ -221,6 +247,28 @@ public class MisEventosFragment extends Fragment {
                             // El archivo no se ha descargado correctamente
                         }
                     });
+        }
+    }
+
+    // Agregar los métodos onCreateOptionsMenu y onOptionsItemSelected para manejar el menú de la Toolbar
+    @Override
+    public void onCreateOptionsMenu(@NonNull android.view.Menu menu, @NonNull android.view.MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            // Acción para el elemento de menú de ajustes
+            Toast.makeText(requireActivity(), "Settings clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getItemId() == R.id.action_profile) {
+            // Acción para el elemento de menú de perfil
+            Toast.makeText(requireActivity(), "Profile clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
