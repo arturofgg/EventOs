@@ -5,14 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LRFragmentsActivity">
+    tools:context=".PaginaPrincipal">
 
 
-        <com.anarlu.eventos.CustomViewPager
+    <androidx.viewpager.widget.ViewPager
             android:id="@+id/fragment_container_pg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/azulOscuro"/>
+            android:layout_height="match_parent" />
 
         <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,17 +24,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
-
-        <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
