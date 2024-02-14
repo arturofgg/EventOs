@@ -30,16 +30,21 @@ public class PaginaPrincipal extends AppCompatActivity { // Cambio aquí a BaseA
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
+                String title = "";
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_option1) {
                     selectedFragment = new MisEventosFragment();
+                    title = "Mis Eventos";
                 } else if (itemId == R.id.nav_option2) {
                     selectedFragment = new ChatFragment();
+                    title = "Chat";
                 } else if (itemId == R.id.nav_option3) {
                     selectedFragment = new EventosFragment();
+                    title = "Eventos";
                 }
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_pg, selectedFragment).commit();
+                updateToolbar(title, true, true); // Actualizar el título de la Toolbar
                 return true;
             }
         });
@@ -47,6 +52,9 @@ public class PaginaPrincipal extends AppCompatActivity { // Cambio aquí a BaseA
         // Cargar el primer fragmento por defecto
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_pg, new EventosFragment()).commit();
         // Configurar la Toolbar inicialmente con el primer fragmento
+    }
+    public void setToolbarTitle(String title) {
+        toolbar.setTitle(title);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

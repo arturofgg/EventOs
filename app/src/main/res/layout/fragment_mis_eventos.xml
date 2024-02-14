@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TusEventos">
+    tools:context=".MisEventosFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -54,7 +54,7 @@
         android:layout_marginStart="141dp"
         android:layout_marginTop="61dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/masnaranja" />
 
     <Button

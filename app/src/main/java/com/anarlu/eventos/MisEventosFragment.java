@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
@@ -81,6 +82,7 @@ public class MisEventosFragment extends Fragment {
 
     private GoogleSignInClient mGoogleSignInClient;
     private Drawable persona;
+    private TextView tvNoEvent;
 
 
     @SuppressLint("MissingInflatedId")
@@ -108,6 +110,7 @@ public class MisEventosFragment extends Fragment {
         borrar=view.findViewById(R.id.delete);
         options = new UCrop.Options();
         creacion=view.findViewById(R.id.imageView5);
+        tvNoEvent=view.findViewById(R.id.tvNoEvent);
 
         FirebaseApp.initializeApp(/*context=*/ getActivity());
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
@@ -133,6 +136,15 @@ public class MisEventosFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Imagen no dispobible", Toast.LENGTH_SHORT).show();
         }
+
+        if (eventos.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            tvNoEvent.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            tvNoEvent.setVisibility(View.GONE);
+        }
+
 
         user2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +204,7 @@ public class MisEventosFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Configuración de la Toolbar
-        toolbar.setTitle("Mis Eventos");
+        ((PaginaPrincipal) getActivity()).setToolbarTitle("Mis Eventos");
 
         creacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -472,7 +484,4 @@ public class MisEventosFragment extends Fragment {
         Intent intent=new Intent(getActivity(), CrearEvento.class);
         startActivity(intent);
     }
-
-
-
 }
