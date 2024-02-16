@@ -24,7 +24,7 @@
         <activity
             android:name=".CrearEvento"
             android:exported="true"
-            android:parentActivityName=".TusEventos"
+            android:parentActivityName=".PaginaPrincipal"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -33,6 +33,7 @@
         <activity
             android:name=".PaginaPrincipal"
             android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             />
     </application>

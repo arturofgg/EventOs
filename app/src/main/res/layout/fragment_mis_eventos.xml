@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MisEventosFragment">
 
+    <!-- Faltaria hacer que solo aparezca cuando  -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toTopOf="@+id/logout"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -17,14 +19,13 @@
         android:id="@+id/imageView5"
         android:layout_width="55dp"
         android:layout_height="53dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.923"
+        app:layout_constraintVertical_bias="0.712"
         app:srcCompat="@drawable/masnaranja" />
 
-    <!-- Faltaria hacer que solo aparezca cuando  -->
     <TextView
         android:id="@+id/tvNoEvent"
         android:layout_width="wrap_content"
@@ -41,8 +42,8 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginBottom="198dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="224dp"
         android:text="Cerrar Sesión"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -54,22 +55,22 @@
         android:layout_marginStart="136dp"
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarMisEventos"
         app:srcCompat="@drawable/masnaranja" />
 
     <Button
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginBottom="107dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="164dp"
         android:text="Borrar cuenta"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarMisEventos"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"

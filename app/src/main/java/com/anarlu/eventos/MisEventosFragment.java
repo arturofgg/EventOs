@@ -9,60 +9,38 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.yalantis.ucrop.UCrop;
-
 
 public class MisEventosFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -71,7 +49,7 @@ public class MisEventosFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-    private ImageView user2,creacion;
+    private ImageView user2, creacion;
     private Toolbar toolbar;
 
     private UCrop.Options options;
@@ -79,35 +57,37 @@ public class MisEventosFragment extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
     private Drawable persona;
 
-
-    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_mis_eventos, container, false);
 
         // Configuración de la Toolbar
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbar = view.findViewById(R.id.toolbarMisEventos);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
 
-        recyclerView=view.findViewById(R.id.recycler_view);
+        // Configurar el título personalizado
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Mis Eventos");
+
+        // Indicar que este fragmento tiene su propio menú de opciones
+        setHasOptionsMenu(true);
+
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        eventos=new ArrayList<>();
-        adapter=new EventoAdapter(eventos);
+        eventos = new ArrayList<>();
+        adapter = new EventoAdapter(eventos);
         recyclerView.setAdapter(adapter);
 
-        mFirestore=FirebaseFirestore.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         user2 = view.findViewById(R.id.imageView2);
         options = new UCrop.Options();
-        creacion=view.findViewById(R.id.imageView5);
+        creacion = view.findViewById(R.id.imageView5);
 
         FirebaseApp.initializeApp(/*context=*/ getActivity());
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
-        firebaseAppCheck.installAppCheckProviderFactory(
-                PlayIntegrityAppCheckProviderFactory.getInstance());
+        firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());
 
         user2.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -119,14 +99,14 @@ public class MisEventosFragment extends Fragment {
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
         int idImagenPredeterminada = getResources().getIdentifier("person", "drawable", getActivity().getPackageName());
 
         if (idImagenPredeterminada != 0) {
             persona = getResources().getDrawable(idImagenPredeterminada);
         } else {
-            Toast.makeText(getActivity(), "Imagen no dispobible", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Imagen no disponible", Toast.LENGTH_SHORT).show();
         }
 
         creacion.setOnClickListener(new View.OnClickListener() {
@@ -136,9 +116,9 @@ public class MisEventosFragment extends Fragment {
             }
         });
 
-        if(mAuth.getCurrentUser()!=null){
-            String userId=mAuth.getCurrentUser().getUid();
-            mFirestore.collection("Eventos").whereEqualTo("ID_usuario",userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        if (mAuth.getCurrentUser() != null) {
+            String userId = mAuth.getCurrentUser().getUid();
+            mFirestore.collection("Eventos").whereEqualTo("ID_usuario", userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -158,28 +138,13 @@ public class MisEventosFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // Configurar la Toolbar
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setTitle("Mis Eventos");
-
-        creacion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CrearNuevoEvento();
-            }
-        });
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void CrearNuevoEvento(){
-        Intent intent=new Intent(getActivity(), CrearEvento.class);
+    private void CrearNuevoEvento() {
+        Intent intent = new Intent(getActivity(), CrearEvento.class);
         startActivity(intent);
     }
-
-
-
 }
