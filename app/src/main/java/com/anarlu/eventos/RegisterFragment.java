@@ -63,13 +63,6 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        // Habilitar el deslizamiento a la izquierda cuando se carga la vista
-        ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeLeft(true);
-        // Habilitar el deslizamiento a la derecha cuando se carga la vista
-        ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeRight(false);
-
-        Button loginButton = view.findViewById(R.id.loginR);
-
         FirebaseApp.initializeApp(getActivity());
         mFirestore=FirebaseFirestore.getInstance();
         mAuth=FirebaseAuth.getInstance();
@@ -86,6 +79,16 @@ public class RegisterFragment extends Fragment {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),gso);
+
+        Button loginButton = view.findViewById(R.id.loginR);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtener la actividad actual y cambiar al fragmento de login
+                LRFragmentsActivity activity = (LRFragmentsActivity) getActivity();
+                activity.getViewPager().setCurrentItem(0);
+            }
+        });
 
         googleR.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,16 +137,6 @@ public class RegisterFragment extends Fragment {
                                 }
                             });
                 }
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Habilitar el deslizamiento a la izquierda
-                ((LRFragmentsActivity) getActivity()).viewPager.setEnableSwipeLeft(true);
-                // Cambiar a la página de inicio de sesión
-                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(0);
             }
         });
 
@@ -254,9 +247,6 @@ public class RegisterFragment extends Fragment {
                                     });
                                 }
                             });
-
-
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getActivity(), "Sign-in failed", Toast.LENGTH_SHORT).show();
@@ -295,7 +285,6 @@ public class RegisterFragment extends Fragment {
 
                                 });
                     }
-
                 });
     }
 
@@ -332,8 +321,9 @@ public class RegisterFragment extends Fragment {
         updateUI(currentUser);
     }
 
+    //CAMBIARCLASE
     public void openEventos(Task<Void> v){
-        Intent intent=new Intent(getActivity(),TusEventos.class);
+        Intent intent=new Intent(getActivity(),LoginFragment.class);
         startActivity(intent);
     }
 
@@ -349,8 +339,9 @@ public class RegisterFragment extends Fragment {
         }
     }
 
+    //CAMBIAR CLASE
     private void irEventos() {
-        Intent intent=new Intent(getActivity(),TusEventos.class);
+        Intent intent=new Intent(getActivity(),LoginFragment.class);
         startActivity(intent);
     }
 }

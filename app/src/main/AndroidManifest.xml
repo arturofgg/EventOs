@@ -19,46 +19,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EventOs">
         <activity
-            android:name=".Item_Evento"
+            android:name=".RecuperarContrasenaActivity"
             android:exported="false" />
-        <activity
-            android:name=".BaseActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".splash"
-            android:exported="true"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".LRFragmentsActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TusEventos"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".CrearEvento"
-            android:exported="true"
-            android:parentActivityName=".TusEventos"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
-        <activity
-            android:name=".PaginaPrincipal"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            />
     </application>
 
 </manifest>

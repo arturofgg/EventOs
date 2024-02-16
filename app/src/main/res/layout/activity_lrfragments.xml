@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".LRFragmentsActivity">
 
-    <com.anarlu.eventos.CustomViewPager
-        android:id="@+id/fragment_container"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/fragment_container_LR"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/azulOscuro"/>
