@@ -150,7 +150,17 @@ public class TusEventos extends AppCompatActivity {
         borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                borrarUsuario();
+                new AlertDialog.Builder(TusEventos.this)
+                        .setTitle("Borrar cuenta")
+                        .setMessage("¿Estás seguro que quiere borrar su cuenta? Esta accion no tendrá marcha atrás.")
+                        .setPositiveButton("Sí, estoy seguro", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                borrarUsuario();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 
