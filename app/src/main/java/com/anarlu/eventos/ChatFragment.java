@@ -20,12 +20,6 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        // Configuración de la Toolbar
-        toolbar = view.findViewById(R.id.toolbarChat);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-
-        // Configurar el título personalizado
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Chat");
 
         // Indicar que este fragmento tiene su propio menú de opciones
         setHasOptionsMenu(true);
@@ -33,9 +27,4 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_toolbar, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 }

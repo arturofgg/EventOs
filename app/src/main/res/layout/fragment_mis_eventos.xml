@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MisEventosFragment">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarMisEventos"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     <!-- Faltaria hacer que solo aparezca cuando  -->
     <androidx.recyclerview.widget.RecyclerView
@@ -26,17 +16,6 @@
         app:layout_constraintBottom_toTopOf="@+id/logout"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvNoEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:text="No hay ningún evento creado"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/logout"
@@ -53,9 +32,9 @@
         android:layout_width="137dp"
         android:layout_height="139dp"
         android:layout_marginStart="136dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMisEventos"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/masnaranja" />
 
     <Button
