@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MisEventosFragment">
 
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarMisEventos"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
     <!-- Faltaria hacer que solo aparezca cuando  -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -14,17 +25,6 @@
         android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toTopOf="@+id/logout"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="55dp"
-        android:layout_height="53dp"
-        android:layout_marginEnd="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.712"
-        app:srcCompat="@drawable/masnaranja" />
 
     <TextView
         android:id="@+id/tvNoEvent"
@@ -68,16 +68,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarMisEventos"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="55dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
-
+        app:layout_constraintVertical_bias="0.712"
+        app:srcCompat="@drawable/masnaranja" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
