@@ -1,0 +1,20 @@
+Index: .idea/deploymentTargetDropDown.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"deploymentTargetDropDown\">\r\n    <value>\r\n      <entry key=\"PaginaPrincipal\">\r\n        <State />\r\n      </entry>\r\n      <entry key=\"app\">\r\n        <State />\r\n      </entry>\r\n    </value>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
+--- a/.idea/deploymentTargetDropDown.xml	(revision 558a76b8ac2f4a582b40444ae0dde1cb412d92a1)
++++ b/.idea/deploymentTargetDropDown.xml	(date 1708084951546)
+@@ -2,6 +2,9 @@
+ <project version="4">
+   <component name="deploymentTargetDropDown">
+     <value>
++      <entry key="LRFragmentsActivity">
++        <State />
++      </entry>
+       <entry key="PaginaPrincipal">
+         <State />
+       </entry>
