@@ -1,7 +1,5 @@
 package com.anarlu.eventos;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -65,8 +63,6 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        Button loginButton = view.findViewById(R.id.loginR);
-
         FirebaseApp.initializeApp(getActivity());
         mFirestore=FirebaseFirestore.getInstance();
         mAuth=FirebaseAuth.getInstance();
@@ -78,11 +74,21 @@ public class RegisterFragment extends Fragment {
         googleR=view.findViewById(R.id.googleR);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
+                .requestIdToken("90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(),gso);
+
+        Button loginButton = view.findViewById(R.id.loginR);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtener la actividad actual y cambiar al fragmento de login
+                LRFragmentsActivity activity = (LRFragmentsActivity) getActivity();
+                activity.getViewPager().setCurrentItem(0);
+            }
+        });
 
         googleR.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,13 +137,6 @@ public class RegisterFragment extends Fragment {
                                 }
                             });
                 }
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(0);  // Cambia a LoginFragment
             }
         });
 
@@ -211,9 +210,7 @@ public class RegisterFragment extends Fragment {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.e(TAG, "Error al iniciar sesión con Google: "+e.getStatusCode()+" mensaje" + e.getMessage());
                 Toast.makeText(getActivity(), "Error de inicio de sesion", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity(), "Error de inicio de sesion "+e.getStatusCode(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -250,9 +247,6 @@ public class RegisterFragment extends Fragment {
                                     });
                                 }
                             });
-
-
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getActivity(), "Sign-in failed", Toast.LENGTH_SHORT).show();
@@ -291,7 +285,6 @@ public class RegisterFragment extends Fragment {
 
                                 });
                     }
-
                 });
     }
 
@@ -328,13 +321,9 @@ public class RegisterFragment extends Fragment {
         updateUI(currentUser);
     }
 
-    public void openLogin(View v) {
-        Intent intent = new Intent(getActivity(), Login.class);
-        startActivity(intent);
-    }
-
+    //CAMBIARCLASE
     public void openEventos(Task<Void> v){
-        Intent intent=new Intent(getActivity(),TusEventos.class);
+        Intent intent=new Intent(getActivity(),LoginFragment.class);
         startActivity(intent);
     }
 
@@ -350,8 +339,9 @@ public class RegisterFragment extends Fragment {
         }
     }
 
+    //CAMBIAR CLASE
     private void irEventos() {
-        Intent intent=new Intent(getActivity(),TusEventos.class);
+        Intent intent=new Intent(getActivity(),LoginFragment.class);
         startActivity(intent);
     }
 }

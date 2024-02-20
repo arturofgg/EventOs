@@ -24,3 +24,5 @@
 -keep interface com.yalantis.ucrop** { *; }
 -keep public class com.anarlu.eventos.splash
 
+-keep public class com.anarlu.eventos.splash
+

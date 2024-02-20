@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/azulOscuro"
-    tools:context=".Login">
+    tools:context=".LoginFragment">
 
     <TextView
         android:id="@+id/Eventos"
@@ -40,7 +40,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="96dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:onClick="openSignup"
         android:text="Register"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -154,7 +153,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="33dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:onClick="enlaceClicado"
+        android:onClick="irRecuperarContrasena"
         android:text="Forget password?"
         android:textColor="@color/naranjaOscuro"
         android:textSize="14sp"
