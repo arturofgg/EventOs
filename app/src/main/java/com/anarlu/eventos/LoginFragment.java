@@ -21,27 +21,41 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 
-public class LoginFragment extends Fragment {
 
+public class LoginFragment extends Fragment {
     private Button login;
     private EditText pass,mail;
-
     private FirebaseAuth mAuth;
+    private Button forgetPass;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        //de login a register
-        Button registerButton = view.findViewById(R.id.register);
-
         login=view.findViewById(R.id.buttonLogin);
         mail=view.findViewById(R.id.emailInput);
         pass=view.findViewById(R.id.passwordInput);
-
         mAuth=FirebaseAuth.getInstance();
+        forgetPass=view.findViewById(R.id.forgetPass);
 
+        //de login a register
+        Button registerButton = view.findViewById(R.id.register);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtener la actividad actual y cambiar al fragmento de registro
+                LRFragmentsActivity activity = (LRFragmentsActivity) getActivity();
+                activity.getViewPager().setCurrentItem(1);
+            }
+        });
 
+        //de login a recuperar contraseña
+        forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                irRecuperarContrasena();
+            }
+        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,30 +69,8 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //indico dentro del array de LRFragments que al darle click a donde ira es a register
-                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(1);
-            }
-        });
-
-        //de login a recuperar contraseña
-        Button forgetPassButton = view.findViewById(R.id.forgetPass);
-        forgetPassButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //indico dentro del array de LRFragments que al darle click a donde ira es a recuperar contraseña
-
-                ((LRFragmentsActivity) getActivity()).viewPager.setCurrentItem(2);
-            }
-        });
-
         return view;
     }
-
-
 
     private void loginUser(String emailUser,String passUser){
         mAuth.signInWithEmailAndPassword(emailUser,passUser).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -102,18 +94,16 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
-
-    public void openSignup(View v) {
-        Intent intent = new Intent(getActivity(), Register.class);
+    //CAMBIAR LA CLASE
+    private void irEventos() {
+        Intent intent=new Intent(getActivity(),LoginFragment.class);
         startActivity(intent);
     }
 
-    private void irEventos() {
-        Intent intent=new Intent(getActivity(),TusEventos.class);
+    private void irRecuperarContrasena() {
+        Intent intent = new Intent(getActivity(), RecuperarContrasenaActivity.class);
         startActivity(intent);
     }
 }
