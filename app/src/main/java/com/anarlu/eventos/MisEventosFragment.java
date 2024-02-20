@@ -61,7 +61,6 @@ public class MisEventosFragment extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
     private Drawable persona;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mis_eventos, container, false);
@@ -81,15 +80,12 @@ public class MisEventosFragment extends Fragment {
 
         mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        user2 = view.findViewById(R.id.imageView2);
         options = new UCrop.Options();
         creacion = view.findViewById(R.id.imageView5);
 
         FirebaseApp.initializeApp(/*context=*/ getActivity());
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
         firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());
-
-        user2.setScaleType(ImageView.ScaleType.FIT_XY);
 
         options.setCircleDimmedLayer(true);
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);

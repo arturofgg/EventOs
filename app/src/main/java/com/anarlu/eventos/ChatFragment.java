@@ -15,16 +15,17 @@ import androidx.fragment.app.Fragment;
 
 public class ChatFragment extends Fragment {
     private Toolbar toolbar;
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
 
-        // Indicar que este fragmento tiene su propio menú de opciones
+        // Indicar que este     fragmento tiene su propio menú de opciones
         setHasOptionsMenu(true);
 
         return view;
     }
+
+
 
 }
