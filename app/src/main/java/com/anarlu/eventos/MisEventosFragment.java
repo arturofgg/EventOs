@@ -4,11 +4,13 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -51,6 +54,7 @@ public class MisEventosFragment extends Fragment {
     private FirebaseFirestore mFirestore;
     private ImageView user2, creacion;
     private Toolbar toolbar;
+    private Button logout,borrar;
 
     private UCrop.Options options;
 
@@ -75,6 +79,8 @@ public class MisEventosFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        logout = view.findViewById(R.id.logout);
+
         eventos = new ArrayList<>();
         adapter = new EventoAdapter(eventos);
         recyclerView.setAdapter(adapter);
@@ -95,7 +101,7 @@ public class MisEventosFragment extends Fragment {
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com")
+                .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -134,6 +140,22 @@ public class MisEventosFragment extends Fragment {
                 }
             });
         }
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Cerrar Sesión")
+                        .setMessage("¿Estás seguro que quiere cerrar sesión?")
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                logout();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
         return view;
     }
 
@@ -145,6 +167,20 @@ public class MisEventosFragment extends Fragment {
 
     private void CrearNuevoEvento() {
         Intent intent = new Intent(getActivity(), CrearEvento.class);
+        startActivity(intent);
+    }
+
+    private void logout() {
+        mAuth.signOut();
+        mGoogleSignInClient.signOut();
+        Intent i = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        irLogin();
+    }
+
+    private void irLogin(){
+        Intent intent=new Intent(getActivity(), LRFragmentsActivity.class);
         startActivity(intent);
     }
 }

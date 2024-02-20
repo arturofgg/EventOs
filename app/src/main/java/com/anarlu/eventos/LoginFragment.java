@@ -98,7 +98,7 @@ public class LoginFragment extends Fragment {
 
     //CAMBIAR LA CLASE
     private void irEventos() {
-        Intent intent=new Intent(getActivity(),LoginFragment.class);
+        Intent intent=new Intent(getActivity(),LRFragmentsActivity.class);
         startActivity(intent);
     }
 

@@ -74,7 +74,7 @@ public class RegisterFragment extends Fragment {
         googleR=view.findViewById(R.id.googleR);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com")
+                .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -323,7 +323,7 @@ public class RegisterFragment extends Fragment {
 
     //CAMBIARCLASE
     public void openEventos(Task<Void> v){
-        Intent intent=new Intent(getActivity(),LoginFragment.class);
+        Intent intent=new Intent(getActivity(),PaginaPrincipal.class);
         startActivity(intent);
     }
 
@@ -341,7 +341,7 @@ public class RegisterFragment extends Fragment {
 
     //CAMBIAR CLASE
     private void irEventos() {
-        Intent intent=new Intent(getActivity(),LoginFragment.class);
+        Intent intent=new Intent(getActivity(),PaginaPrincipal.class);
         startActivity(intent);
     }
 }

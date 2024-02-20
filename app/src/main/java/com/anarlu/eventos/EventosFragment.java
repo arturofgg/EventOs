@@ -6,12 +6,16 @@ import android.app.Instrumentation;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,11 +34,22 @@ public class EventosFragment extends Fragment {
     private EventoAdapter adapter;
     private List<Evento> eventos;
     private FirebaseFirestore mFirestore;
+    private Toolbar toolbar;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_eventos,container,false);
+
+        // Configuración de la Toolbar
+        toolbar = view.findViewById(R.id.toolbarEventos);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+
+        // Configurar el título personalizado
+        ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Eventos");
+
+        // Indicar que este fragmento tiene su propio menú de opciones
+        setHasOptionsMenu(true);
 
         recyclerView=view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -64,5 +79,11 @@ public class EventosFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
