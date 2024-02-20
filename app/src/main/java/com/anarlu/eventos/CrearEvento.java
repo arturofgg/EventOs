@@ -141,7 +141,9 @@ public class CrearEvento extends AppCompatActivity {
     }
 
     private void irEventos() {
-        Intent intent=new Intent(CrearEvento.this,TusEventos.class);
+        Intent intent = new Intent(this, PaginaPrincipal.class);
+        intent.putExtra("fragment", "MisEventosFragment"); // Puedes utilizar este extra para indicar al PaginaPrincipal qué fragmento debe mostrar
         startActivity(intent);
+        finish(); // Puedes agregar esta línea si deseas cerrar la actividad actual después de iniciar PaginaPrincipal
     }
 }
