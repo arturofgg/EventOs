@@ -306,9 +306,9 @@ public class RegisterFragment extends Fragment {
 
     private String obtenerUrlImagenPredeterminada() {
         Uri imagenPredeterminadaUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
-                "://" + getResources().getResourcePackageName(R.drawable.person)
-                + '/' + getResources().getResourceTypeName(R.drawable.person)
-                + '/' + getResources().getResourceEntryName(R.drawable.person));
+                "://" + getResources().getResourcePackageName(R.drawable.masnaranja)
+                + '/' + getResources().getResourceTypeName(R.drawable.masnaranja)
+                + '/' + getResources().getResourceEntryName(R.drawable.masnaranja));
 
         return imagenPredeterminadaUri.toString();
     }

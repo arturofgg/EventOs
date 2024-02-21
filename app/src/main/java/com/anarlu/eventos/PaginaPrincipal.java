@@ -103,7 +103,6 @@ public class PaginaPrincipal extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         menu=toolbar.getMenu();
-        menuItem=menu.findItem(R.id.action_profile);
 
         viewPager = findViewById(R.id.viewPagerPaginaPrincipal);
         // Configurar el adaptador de fragmentos para el ViewPager
@@ -196,6 +195,10 @@ public class PaginaPrincipal extends AppCompatActivity {
                 }
             }
 
+            if(menuItem!=null){
+                cargarImagenPerfil();
+            }
+
             // Aquí es donde añades el código para descargar la imagen de Firebase Storage
             StorageReference storageRef = FirebaseStorage.getInstance().getReference();
             StorageReference pathReference = storageRef.child("perfil/"+Fuser.getUid());
@@ -219,6 +222,7 @@ public class PaginaPrincipal extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             // El archivo no se ha descargado correctamente
+                            Toast.makeText(PaginaPrincipal.this, "El archivo no se ha podido descargar correctamente", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -228,8 +232,6 @@ public class PaginaPrincipal extends AppCompatActivity {
         Glide.with(this)
                 .load(imagenUri)
                 .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -237,7 +239,7 @@ public class PaginaPrincipal extends AppCompatActivity {
                             menuItem.setIcon(resource);
                         } else {
                             Toast.makeText(PaginaPrincipal.this, "menuItem nulo", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "menuItem es nulo. No se puede establecer el icono.");
+                            Log.e(TAG, "menuItem es nulo cargar nueva imagen.");
                         }
                     }
 
@@ -306,8 +308,6 @@ public class PaginaPrincipal extends AppCompatActivity {
             Glide.with(this)
                     .load(resultUri)
                     .circleCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .into(new CustomTarget<Drawable>() {
                         @Override
                         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -315,7 +315,7 @@ public class PaginaPrincipal extends AppCompatActivity {
                                 menuItem.setIcon(resource);
                             } else {
                                 Toast.makeText(PaginaPrincipal.this, "menuItem nulo", Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "menuItem es nulo. No se puede establecer el icono.");
+                                Log.e(TAG, "menuItem es nulo. handle crop.");
                             }
                         }
 
@@ -423,12 +423,18 @@ public class PaginaPrincipal extends AppCompatActivity {
         Glide.with(this)
                 .load(photoUrl)
                 .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        menuItem.setIcon(resource);
+                        if (menuItem != null) {
+                            menuItem.setIcon(resource);
+                        } else {
+                            // Manejar el caso en que menuItem sea nulo
+                            // Por ejemplo, mostrar un mensaje de error o registrar el problema
+                            Toast.makeText(PaginaPrincipal.this, "menuItem es nulo", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "menuItem es nulo. loadfirebaseimage.");
+                        }
+
                     }
 
                     @Override
@@ -440,45 +446,45 @@ public class PaginaPrincipal extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Infla el menú; esto añade ítems a la barra de acciones si está presente.
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         menuItem = menu.findItem(R.id.action_profile);
-        cargarImagenPerfil();
+        if (menuItem != null) {
+            cargarImagenPerfil();
+        } else {
+            Log.e(TAG, "menuItem es nulo en onCreateOptionsMenu.");
+        }
         return true;
     }
+
 
     public void cargarImagenPerfil() {
         FirebaseUser Fuser = mAuth.getCurrentUser();
         if (Fuser != null) {
-            //ImageView imageView = new ImageView(this);
             if(Fuser.getPhotoUrl()!=null){
-                Glide.with(this)
-                        .load(Fuser.getPhotoUrl())
-                        .circleCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(new CustomTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                menuItem.setIcon(resource);
-                            }
-
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
-                            }
-                        });
+                loadFirebaseImage(Fuser.getPhotoUrl());
             }else {
                 Uri imagenUri=obtenerNuevaImagenSeleccionada();
                 if(imagenUri!=null){
                     cargarNuevaImagen(imagenUri);
                 }else {
-                    if(Fuser.getPhotoUrl()!=null){
-                        loadFirebaseImage(Fuser.getPhotoUrl());
-                    }
+                    // Si no hay una imagen guardada localmente, cargamos una imagen predeterminada
+                    cargarImagenPredeterminada();
                 }
             }
         }
     }
+
+    public void cargarImagenPredeterminada() {
+        // Aquí es donde cargas tu imagen predeterminada
+        int idImagenPredeterminada = getResources().getIdentifier("person", "drawable", getPackageName());
+        if (idImagenPredeterminada != 0) {
+            Drawable imagenPredeterminada = getResources().getDrawable(idImagenPredeterminada);
+            menuItem.setIcon(imagenPredeterminada);
+        } else {
+            Toast.makeText(this, "Imagen predeterminada no disponible", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
     @Override

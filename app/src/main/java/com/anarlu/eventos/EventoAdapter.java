@@ -1,5 +1,6 @@
 package com.anarlu.eventos;
 
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,36 +41,46 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventoView
         holder.botonEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obtén la posición actual del ViewHolder
-                int currentPosition = holder.getAdapterPosition();
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle("Eliminar Evento")
+                        .setMessage("¿Estás seguro que quiere eliminar este evento?")
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Obtén la posición actual del ViewHolder
+                                int currentPosition = holder.getAdapterPosition();
 
-                // Comprueba si la posición es válida
-                if (currentPosition == RecyclerView.NO_POSITION) {
-                    // La posición no es válida, no hagas nada
-                    return;
-                }
-                // Maneja el clic en el botón eliminar
-                // Obtén el ID del evento que se va a eliminar
-                String idEvento = eventos.get(currentPosition).getID_evento();
+                                // Comprueba si la posición es válida
+                                if (currentPosition == RecyclerView.NO_POSITION) {
+                                    // La posición no es válida, no hagas nada
+                                    return;
+                                }
+                                // Maneja el clic en el botón eliminar
+                                // Obtén el ID del evento que se va a eliminar
+                                String idEvento = eventos.get(currentPosition).getID_evento();
 
-                // Elimina el evento de Firestore
-                mFirestore.collection("Eventos").document(idEvento)
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // El evento se eliminó correctamente, actualiza la lista y notifica al adaptador
-                                eventos.remove(currentPosition);
-                                notifyDataSetChanged();
+                                // Elimina el evento de Firestore
+                                mFirestore.collection("Eventos").document(idEvento)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // El evento se eliminó correctamente, actualiza la lista y notifica al adaptador
+                                                eventos.remove(currentPosition);
+                                                notifyDataSetChanged();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Hubo un error al eliminar el evento, maneja este caso
+                                                Toast.makeText(v.getContext(), "Error al eliminar el evento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
                         })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Hubo un error al eliminar el evento, maneja este caso
-                                Toast.makeText(v.getContext(), "Error al eliminar el evento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        .setNegativeButton("No", null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
         holder.botonEditar.setOnClickListener(new View.OnClickListener() {

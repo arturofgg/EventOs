@@ -15,9 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EventOs">
         <activity
+            android:name=".activity_eventos_general"
+            android:exported="false" />
+        <activity
             android:name=".Item_Evento"
             android:exported="false" />
-
         <activity
             android:name=".splash"
             android:exported="true"
@@ -35,8 +37,8 @@
         <activity
             android:name=".PaginaPrincipal"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CrearEvento"
             android:exported="true"

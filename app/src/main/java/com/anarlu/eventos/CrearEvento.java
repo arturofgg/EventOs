@@ -5,12 +5,14 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -23,16 +25,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CrearEvento extends AppCompatActivity {
 
-    private TextView hora_ini,hora_fin;
+    private TextView hora_ini,hora_fin,fecha_ini,fecha_fin;
     private EditText desc,ubic,name;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
     private Button crear;
+    private String user_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +45,19 @@ public class CrearEvento extends AppCompatActivity {
 
         hora_ini=findViewById(R.id.hora_ini);
         hora_fin=findViewById(R.id.hora_fin);
+        fecha_ini=findViewById(R.id.fecha_ini);
+        fecha_fin=findViewById(R.id.fecha_fin);
         mAuth=FirebaseAuth.getInstance();
         mFirestore=FirebaseFirestore.getInstance();
         crear=findViewById(R.id.btnGuardar);
         desc=findViewById(R.id.etDescripcion);
         ubic=findViewById(R.id.etUbicacion);
         name=findViewById(R.id.etNombre);
+
+        FirebaseUser user=mAuth.getCurrentUser();
+        if(user!=null){
+            user_name=user.getDisplayName();
+        }
 
         hora_ini.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +103,42 @@ public class CrearEvento extends AppCompatActivity {
             }
         });
 
+        fecha_ini.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CrearEvento.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                fecha_ini.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
+        fecha_fin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CrearEvento.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                fecha_fin.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
         crear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,16 +147,18 @@ public class CrearEvento extends AppCompatActivity {
                 String descr=desc.getText().toString().trim();
                 String hora_inicial=hora_ini.getText().toString().trim();
                 String hora_final=hora_fin.getText().toString().trim();
-                if(nombre.isEmpty() || ubicacion.isEmpty() || descr.isEmpty() || hora_inicial.isEmpty() || hora_final.isEmpty()){
+                String fecha_inicial=fecha_ini.getText().toString().trim();
+                String fecha_final=fecha_fin.getText().toString().trim();
+                if(nombre.isEmpty() || ubicacion.isEmpty() || descr.isEmpty() || hora_inicial.isEmpty() || hora_final.isEmpty() || fecha_final.isEmpty() || fecha_inicial.isEmpty()){
                     Toast.makeText(CrearEvento.this, "Rellene todos los campos", Toast.LENGTH_SHORT).show();
                 }else {
-                    crearEvento(nombre,ubicacion,descr,hora_inicial,hora_final);
+                    crearEvento(nombre,ubicacion,descr,hora_inicial,hora_final,fecha_inicial,fecha_final,user_name);
                 }
             }
         });
     }
 
-    public void crearEvento(String nombre,String ubicacion,String descr,String hora_inicial,String hora_final){
+    public void crearEvento(String nombre,String ubicacion,String descr,String hora_inicial,String hora_final,String fecha_inicial,String fecha_final,String user_name){
         DocumentReference EventoRef=mFirestore.collection("Eventos").document();
         FirebaseUser user=mAuth.getCurrentUser();
         Map<String, Object> map = new HashMap<>();
@@ -119,6 +168,9 @@ public class CrearEvento extends AppCompatActivity {
         map.put("Descripicion", descr);
         map.put("Hora_inicio", hora_inicial);
         map.put("Hora_final", hora_final);
+        map.put("Fecha_inicial",fecha_inicial);
+        map.put("Fecha_final",fecha_final);
+        map.put("Nombre usuario",user_name);
         map.put("ID_usuario",user.getUid());
 
         // Añade el evento a Firestore

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TusEventos">
+    tools:context=".PaginaPrincipal">
 
     <!-- AppBar -->
 
@@ -29,7 +29,7 @@
         style="@style/botonlogin"
         android:layout_width="390dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="223dp"
+        android:layout_marginBottom="136dp"
         android:text="Crear Evento"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,6 +84,17 @@
 
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="67dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="37dp"
+        android:text="Fecha:"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
         android:id="@+id/hora_ini"
         android:layout_width="123dp"
         android:layout_height="39dp"
@@ -100,6 +111,22 @@
         app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
 
     <TextView
+        android:id="@+id/fecha_ini"
+        android:layout_width="128dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="34dp"
+        android:contextClickable="false"
+        android:ems="10"
+        android:hint="Fecha inicio"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="none"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/hora_ini" />
+
+    <TextView
         android:id="@+id/hora_fin"
         android:layout_width="123dp"
         android:layout_height="39dp"
@@ -112,6 +139,20 @@
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/hora_ini"
         app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
+
+    <TextView
+        android:id="@+id/fecha_fin"
+        android:layout_width="123dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="34dp"
+        android:ems="10"
+        android:hint="Fecha final"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/fecha_ini"
+        app:layout_constraintTop_toBottomOf="@+id/hora_fin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

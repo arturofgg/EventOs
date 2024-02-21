@@ -17,8 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,7 +41,6 @@ import java.util.List;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.yalantis.ucrop.UCrop;
 
 public class MisEventosFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -56,7 +53,6 @@ public class MisEventosFragment extends Fragment {
     private Toolbar toolbar;
     private Button logout,borrar;
 
-    private UCrop.Options options;
 
     private GoogleSignInClient mGoogleSignInClient;
     private Drawable persona;
@@ -80,15 +76,12 @@ public class MisEventosFragment extends Fragment {
 
         mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        options = new UCrop.Options();
         creacion = view.findViewById(R.id.imageView5);
 
         FirebaseApp.initializeApp(/*context=*/ getActivity());
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
         firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());
 
-        options.setCircleDimmedLayer(true);
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
