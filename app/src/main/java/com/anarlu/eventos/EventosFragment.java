@@ -31,7 +31,7 @@ import java.util.List;
 public class EventosFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private EventoAdapter adapter;
+    private EventosAdapterExpandible adapter;
     private List<Evento> eventos;
     private FirebaseFirestore mFirestore;
     private Toolbar toolbar;
@@ -50,7 +50,7 @@ public class EventosFragment extends Fragment {
         mFirestore=FirebaseFirestore.getInstance();
 
         eventos=new ArrayList<>();
-        adapter=new EventoAdapter(eventos);
+        adapter=new EventosAdapterExpandible(eventos);
         recyclerView.setAdapter(adapter);
 
             mFirestore.collection("Eventos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -4,56 +4,44 @@ public class Evento {
     private String ID_evento;
     private String Nombre;
     private String Ubicacion;
-    private String descripcion;
+    private String Descripicion;
     private String Hora_inicio;
     private String Hora_final;
     private String ID_usuario;
-    private String fecha_inicio;
-    private String fecha_fin;
-    private String name_user;
+    private String Fecha_inicial;
+    private String Fecha_final;
+    private String Nombre_usuario;
 
     // Constructor vacío requerido para Firestore
     public Evento() {}
     // Constructor con todos los campos
-    public Evento(String ID_evento, String Nombre, String Ubicacion, String descripcion, String Hora_inicio, String Hora_final,String fecha_inicio,String fecha_fin,String name_user, String ID_usuario) {
+    public Evento(String ID_evento, String Nombre, String Ubicacion, String Descripicion, String Hora_inicio, String Hora_final,String Fecha_inicial,String Fecha_final,String Nombre_usuario, String ID_usuario) {
         this.ID_evento = ID_evento;
         this.Nombre = Nombre;
         this.Ubicacion = Ubicacion;
-        this.descripcion = descripcion;
+        this.Descripicion = Descripicion;
         this.Hora_inicio = Hora_inicio;
         this.Hora_final = Hora_final;
         this.ID_usuario = ID_usuario;
-        this.fecha_inicio=fecha_inicio;
-        this.fecha_fin=fecha_fin;
+        this.Fecha_inicial=Fecha_inicial;
+        this.Fecha_final=Fecha_final;
         //foto
-        this.name_user=name_user;
+        this.Nombre_usuario=Nombre_usuario;
     }
 
     // Getters y setters para cada campo
 
-    public String getFecha_inicio() {
-        return fecha_inicio;
-    }
+    public String getFecha_inicial() {return Fecha_inicial;}
 
-    public void setFecha_inicio(String fecha_inicio) {
-        this.fecha_inicio = fecha_inicio;
-    }
+    public void setFecha_inicial(String Fecha_inicial) {this.Fecha_inicial = Fecha_inicial;}
 
-    public String getFecha_fin() {
-        return fecha_fin;
-    }
+    public String getFecha_final() {return Fecha_final;}
 
-    public void setFecha_fin(String fecha_fin) {
-        this.fecha_fin = fecha_fin;
-    }
+    public void setFecha_final(String Fecha_final) {this.Fecha_final = Fecha_final;}
 
-    public String getName_user() {
-        return name_user;
-    }
+    public String getNombre_usuario() {return Nombre_usuario;}
 
-    public void setName_user(String name_user) {
-        this.name_user = name_user;
-    }
+    public void setNombre_usuario(String Nombre_usuario) {this.Nombre_usuario = Nombre_usuario;}
 
     public String getID_evento() {
         return ID_evento;
@@ -79,12 +67,12 @@ public class Evento {
         this.Ubicacion = Ubicacion;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescripicion() {
+        return Descripicion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescripicion(String Descripicion) {
+        this.Descripicion = Descripicion;
     }
 
     public String getHora_inicio() {

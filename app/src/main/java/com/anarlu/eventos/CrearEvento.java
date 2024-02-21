@@ -170,7 +170,7 @@ public class CrearEvento extends AppCompatActivity {
         map.put("Hora_final", hora_final);
         map.put("Fecha_inicial",fecha_inicial);
         map.put("Fecha_final",fecha_final);
-        map.put("Nombre usuario",user_name);
+        map.put("Nombre_usuario",user_name);
         map.put("ID_usuario",user.getUid());
 
         // Añade el evento a Firestore
