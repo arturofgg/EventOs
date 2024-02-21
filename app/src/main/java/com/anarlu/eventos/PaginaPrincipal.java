@@ -494,6 +494,10 @@ public class PaginaPrincipal extends AppCompatActivity {
             Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(pickPhoto, REQUEST_GALLERY_PERMISSION);
             return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent=new Intent(PaginaPrincipal.this, Ajustes.class);
+            startActivity(intent);
+            return true;
         } else {
             return super.onOptionsItemSelected(item);
         }

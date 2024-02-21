@@ -49,13 +49,9 @@ public class MisEventosFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-    private ImageView user2, creacion;
-    private Toolbar toolbar;
-    private Button logout,borrar;
+    private ImageView creacion;
 
 
-    private GoogleSignInClient mGoogleSignInClient;
-    private Drawable persona;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +64,7 @@ public class MisEventosFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        logout = view.findViewById(R.id.logout);
+
 
         eventos = new ArrayList<>();
         adapter = new EventoAdapter(eventos);
@@ -78,25 +74,6 @@ public class MisEventosFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         creacion = view.findViewById(R.id.imageView5);
 
-        FirebaseApp.initializeApp(/*context=*/ getActivity());
-        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
-        firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());
-
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
-
-        int idImagenPredeterminada = getResources().getIdentifier("person", "drawable", getActivity().getPackageName());
-
-        if (idImagenPredeterminada != 0) {
-            persona = getResources().getDrawable(idImagenPredeterminada);
-        } else {
-            Toast.makeText(getActivity(), "Imagen no disponible", Toast.LENGTH_SHORT).show();
-        }
 
         creacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,22 +100,7 @@ public class MisEventosFragment extends Fragment {
                 }
             });
         }
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Cerrar Sesión")
-                        .setMessage("¿Estás seguro que quiere cerrar sesión?")
-                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                logout();
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-            }
-        });
+
         return view;
     }
 
@@ -148,17 +110,4 @@ public class MisEventosFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void logout() {
-        mAuth.signOut();
-        mGoogleSignInClient.signOut();
-        Intent i = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-        irLogin();
-    }
-
-    private void irLogin(){
-        Intent intent=new Intent(getActivity(), LRFragmentsActivity.class);
-        startActivity(intent);
-    }
 }

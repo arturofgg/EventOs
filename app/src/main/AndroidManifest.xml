@@ -15,12 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EventOs">
         <activity
-            android:name=".activity_eventos_general"
-            android:exported="false" />
-        <activity
-            android:name=".Item_Evento"
-            android:exported="false" />
-        <activity
             android:name=".splash"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -42,8 +36,21 @@
         <activity
             android:name=".CrearEvento"
             android:exported="true"
-            android:parentActivityName=".MisEventosFragment"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".PaginaPrincipal"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PaginaPrincipal" />
+        </activity>
+        <activity
+            android:name=".Ajustes"
+            android:exported="true"
+            android:parentActivityName=".PaginaPrincipal"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PaginaPrincipal" />
+        </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"

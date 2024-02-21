@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -42,6 +43,12 @@ public class CrearEvento extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_evento);
+
+        Toolbar toolbar = findViewById(R.id.AppBar);
+        setSupportActionBar(toolbar);
+
+        // Habilitar la flecha de retroceso
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         hora_ini=findViewById(R.id.hora_ini);
         hora_fin=findViewById(R.id.hora_fin);
