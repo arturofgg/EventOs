@@ -11,11 +11,12 @@ public class Evento {
     private String Fecha_inicial;
     private String Fecha_final;
     private String Nombre_usuario;
+    private String Tipo;
 
     // Constructor vacío requerido para Firestore
     public Evento() {}
     // Constructor con todos los campos
-    public Evento(String ID_evento, String Nombre, String Ubicacion, String Descripicion, String Hora_inicio, String Hora_final,String Fecha_inicial,String Fecha_final,String Nombre_usuario, String ID_usuario) {
+    public Evento(String ID_evento, String Nombre, String Ubicacion, String Descripicion, String Hora_inicio, String Hora_final,String Fecha_inicial,String Fecha_final,String Tipo,String Nombre_usuario, String ID_usuario) {
         this.ID_evento = ID_evento;
         this.Nombre = Nombre;
         this.Ubicacion = Ubicacion;
@@ -27,9 +28,14 @@ public class Evento {
         this.Fecha_final=Fecha_final;
         //foto
         this.Nombre_usuario=Nombre_usuario;
+        this.Tipo=Tipo;
     }
 
     // Getters y setters para cada campo
+
+    public String getTipo() {return Tipo;}
+
+    public void setTipo(String Tipo) {this.Tipo = Tipo;}
 
     public String getFecha_inicial() {return Fecha_inicial;}
 

@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,6 +40,8 @@ public class CrearEvento extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private Button crear;
     private String user_name;
+    private Spinner tipo;
+    private String tipoSeleccionado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +64,24 @@ public class CrearEvento extends AppCompatActivity {
         desc=findViewById(R.id.etDescripcion);
         ubic=findViewById(R.id.etUbicacion);
         name=findViewById(R.id.etNombre);
+        tipo=findViewById(R.id.tipo);
 
         FirebaseUser user=mAuth.getCurrentUser();
         if(user!=null){
             user_name=user.getDisplayName();
         }
+
+        tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tipoSeleccionado=parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(CrearEvento.this, "Por favor escoja un tipo", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         hora_ini.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,13 +176,13 @@ public class CrearEvento extends AppCompatActivity {
                 if(nombre.isEmpty() || ubicacion.isEmpty() || descr.isEmpty() || hora_inicial.isEmpty() || hora_final.isEmpty() || fecha_final.isEmpty() || fecha_inicial.isEmpty()){
                     Toast.makeText(CrearEvento.this, "Rellene todos los campos", Toast.LENGTH_SHORT).show();
                 }else {
-                    crearEvento(nombre,ubicacion,descr,hora_inicial,hora_final,fecha_inicial,fecha_final,user_name);
+                    crearEvento(nombre,ubicacion,descr,hora_inicial,hora_final,fecha_inicial,fecha_final,user_name,tipoSeleccionado);
                 }
             }
         });
     }
 
-    public void crearEvento(String nombre,String ubicacion,String descr,String hora_inicial,String hora_final,String fecha_inicial,String fecha_final,String user_name){
+    public void crearEvento(String nombre,String ubicacion,String descr,String hora_inicial,String hora_final,String fecha_inicial,String fecha_final,String user_name,String tipoSeleccionado){
         DocumentReference EventoRef=mFirestore.collection("Eventos").document();
         FirebaseUser user=mAuth.getCurrentUser();
         Map<String, Object> map = new HashMap<>();
@@ -178,6 +195,7 @@ public class CrearEvento extends AppCompatActivity {
         map.put("Fecha_inicial",fecha_inicial);
         map.put("Fecha_final",fecha_final);
         map.put("Nombre_usuario",user_name);
+        map.put("Tipo",tipoSeleccionado);
         map.put("ID_usuario",user.getUid());
 
         // Añade el evento a Firestore
