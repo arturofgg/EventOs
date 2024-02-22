@@ -101,7 +101,6 @@ public class EventosFragment extends Fragment {
 
             }
         });
-
         return view;
     }
 

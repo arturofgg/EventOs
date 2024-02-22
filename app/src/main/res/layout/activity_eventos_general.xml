@@ -103,6 +103,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Hora de fin" />
+
+                    <Button
+                        android:id="@+id/geo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Maps" />
                 </LinearLayout>
 
             </net.cachapa.expandablelayout.ExpandableLayout>
