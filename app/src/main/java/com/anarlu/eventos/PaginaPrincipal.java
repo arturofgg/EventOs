@@ -65,10 +65,7 @@ public class PaginaPrincipal extends AppCompatActivity {
     private MenuItem menuItem;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-    private UCrop.Options options;
-    private static final int REQUEST_GALLERY_PERMISSION=2020;
     private GoogleSignInClient mGoogleSignInClient;
-    private Drawable persona;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +73,6 @@ public class PaginaPrincipal extends AppCompatActivity {
 
         mFirestore= FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        options = new UCrop.Options();
-        options.setCircleDimmedLayer(true);
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
@@ -86,14 +80,6 @@ public class PaginaPrincipal extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-
-        int idImagenPredeterminada = getResources().getIdentifier("person", "drawable", getPackageName());
-
-        if (idImagenPredeterminada != 0) {
-            persona = getResources().getDrawable(idImagenPredeterminada);
-        } else {
-            Toast.makeText(this, "Imagen no dispobible", Toast.LENGTH_SHORT).show();
-        }
 
         FirebaseApp.initializeApp(/*context=*/ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
@@ -176,323 +162,60 @@ public class PaginaPrincipal extends AppCompatActivity {
         viewPager.setCurrentItem(0);
     }
 
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser Fuser = mAuth.getCurrentUser();
-        if (Fuser == null) {
-            irLogin();
-        } else {
-            if(Fuser.getPhotoUrl()!=null){
-                loadFirebaseImage(Fuser.getPhotoUrl());
-            }else {
-                Uri imagenUri=obtenerNuevaImagenSeleccionada();
-                if(imagenUri!=null){
-                    cargarNuevaImagen(imagenUri);
-                }else {
-                    if(Fuser.getPhotoUrl()!=null){
-                        loadFirebaseImage(Fuser.getPhotoUrl());
-                    }
-                }
-            }
-
-            if(menuItem!=null){
-                cargarImagenPerfil();
-            }
-
-            // Aquí es donde añades el código para descargar la imagen de Firebase Storage
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            StorageReference pathReference = storageRef.child("perfil/"+Fuser.getUid());
-
-            File localFile = null;
-            try {
-                localFile = File.createTempFile("images", "jpg");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            File finalLocalFile = localFile;
-            pathReference.getFile(localFile)
-                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            // El archivo se ha descargado con éxito
-                            Uri downloadedImageUri = Uri.fromFile(finalLocalFile);
-                            cargarNuevaImagen(downloadedImageUri);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // El archivo no se ha descargado correctamente
-                            Toast.makeText(PaginaPrincipal.this, "El archivo no se ha podido descargar correctamente", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
-
-    private void cargarNuevaImagen(Uri imagenUri) {
-        Glide.with(this)
-                .load(imagenUri)
-                .circleCrop()
-                .into(new CustomTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        if (menuItem != null) {
-                            menuItem.setIcon(resource);
-                        } else {
-                            Toast.makeText(PaginaPrincipal.this, "menuItem nulo", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "menuItem es nulo cargar nueva imagen.");
-                        }
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
-        Glide.get(getApplicationContext()).clearMemory();
-    }
-
-    private Uri obtenerNuevaImagenSeleccionada() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String imagenUriStr = sharedPref.getString("imagenUri", null);
-        if (imagenUriStr != null) {
-            return Uri.parse(imagenUriStr);
-        }
-        return null;
-    }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        options.setCircleDimmedLayer(true);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menuItem = menu.findItem(R.id.action_profile);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_GALLERY_PERMISSION) {
-                Uri imageUri = data.getData();
-                if (imageUri != null) {
-                    Glide.with(this)
-                            .load(imageUri)
+        // Obtener el usuario actual
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Verificar si el usuario está autenticado
+        if (currentUser != null) {
+            // Obtener el nombre de usuario (este sería el nombre de la imagen en Storage)
+            String userName = currentUser.getUid(); // o el campo que contenga el nombre único
+
+            // Construir la referencia a la imagen en Firebase Storage
+            StorageReference profileImageRef = FirebaseStorage.getInstance().getReference().child("perfil/").child(userName);
+
+            // Descargar la imagen y establecerla como ícono del perfil en el menú
+            profileImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Utilizar Glide u otra biblioteca para cargar la imagen desde la URL y establecerla en el ícono del menú
+                    Glide.with(getApplicationContext())
+                            .load(uri)
                             .circleCrop()
                             .into(new CustomTarget<Drawable>() {
                                 @Override
                                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                    // Establecer la imagen como ícono del perfil en el menú
                                     menuItem.setIcon(resource);
                                 }
 
                                 @Override
                                 public void onLoadCleared(@Nullable Drawable placeholder) {
+                                    // No es necesario hacer nada aquí
                                 }
                             });
-
-                    Uri destinoUri = Uri.fromFile(new File(getCacheDir(), "imagenRecortada"));
-                    UCrop.of(imageUri, destinoUri).withOptions(options).start(this);
-                } else {
-                    // Puede que haya casos donde la imagenUri sea nula, debes manejarlo adecuadamente
-                    Toast.makeText(this, "Error al obtener la imagen de la cámara", Toast.LENGTH_SHORT).show();
                 }
-            } else if (requestCode == UCrop.REQUEST_CROP) {
-                handleCropResult(data);
-            }
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            // Manejar el error del recorte
-            final Throwable cropError = UCrop.getError(data);
-            if (cropError != null) {
-                Log.e("UCrop", "Error al recortar la imagen", cropError);
-                Toast.makeText(this, "Error al recortar la imagen", Toast.LENGTH_SHORT).show();
-            }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Manejar el caso en el que no se pueda descargar la imagen
+                    Log.e(TAG, "Error al descargar la imagen del perfil: " + e.getMessage());
+                }
+            });
         }
-    }
 
-    private void handleCropResult(Intent data) {
-        final Uri resultUri = UCrop.getOutput(data);
-
-        if (resultUri != null) {
-            Glide.with(this)
-                    .load(resultUri)
-                    .circleCrop()
-                    .into(new CustomTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            if (menuItem != null) {
-                                menuItem.setIcon(resource);
-                            } else {
-                                Toast.makeText(PaginaPrincipal.this, "menuItem nulo", Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "menuItem es nulo. handle crop.");
-                            }
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-                        }
-                    });
-            Glide.get(getApplicationContext()).clearMemory();
-            cambiarFotoPerfil(resultUri);
-        } else {
-            Toast.makeText(this, "Error al obtener la imagen recortada", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void subirFoto(Uri resultUri) {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        String userId = mAuth.getCurrentUser().getUid();
-        StorageReference storageRef = storage.getReference();
-        StorageReference fotoRef = storageRef.child("perfil/" + userId);
-
-        // Eliminar la foto anterior
-        fotoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Log.d("Eliminar foto", "Eliminacion exitosa");
-
-                // Subir la nueva foto después de eliminar la anterior
-                UploadTask uploadTask = fotoRef.putFile(resultUri);
-
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        fotoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String fotoUrl = uri.toString();
-                                Map<String, Object> datosUsuario = new HashMap<>();
-                                datosUsuario.put("foto", fotoUrl);
-
-                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                if (currentUser != null && mFirestore!=null) {
-                                    mFirestore.collection("usuarios").document(currentUser.getUid()).update(datosUsuario).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            Toast.makeText(PaginaPrincipal.this, "Foto guardada correctamente", Toast.LENGTH_SHORT).show();
-                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                    .setPhotoUri(Uri.parse(fotoUrl)) // Aquí debes poner la URL de la nueva foto
-                                                    .build();
-
-                                            currentUser.updateProfile(profileUpdates)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                Log.d(TAG, "User profile updated.");
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(PaginaPrincipal.this, "Error al actualizar la foto", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PaginaPrincipal.this, "Error al subir la nueva foto", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("Eliminar foto", "Error al eliminar foto:" + e.getMessage());
-                Toast.makeText(PaginaPrincipal.this, "Error al eliminar foto anterior: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void cambiarFotoPerfil(Uri nuevaImagenUri) {
-        subirFoto(nuevaImagenUri);
-        FirebaseUser currentUser=mAuth.getCurrentUser();
-        if(currentUser!=null){
-            guardarImagen(nuevaImagenUri,currentUser.getUid());
-        }
-    }
-
-    private void guardarImagen(Uri imagenUri,String userId) {
-        FirebaseUser currentUser=mAuth.getCurrentUser();
-        if(currentUser!=null && currentUser.getUid().equals(userId)) {
-            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("imagenUri", imagenUri.toString());
-            editor.apply();
-        }
-    }
-
-    private void loadFirebaseImage(Uri photoUrl){
-        Glide.with(this)
-                .load(photoUrl)
-                .circleCrop()
-                .into(new CustomTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        if (menuItem != null) {
-                            menuItem.setIcon(resource);
-                        } else {
-                            // Manejar el caso en que menuItem sea nulo
-                            // Por ejemplo, mostrar un mensaje de error o registrar el problema
-                            Toast.makeText(PaginaPrincipal.this, "menuItem es nulo", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "menuItem es nulo. loadfirebaseimage.");
-                        }
-
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
-        Glide.get(getApplicationContext()).clearMemory();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        menuItem = menu.findItem(R.id.action_profile);
-        if (menuItem != null) {
-            cargarImagenPerfil();
-        } else {
-            Log.e(TAG, "menuItem es nulo en onCreateOptionsMenu.");
-        }
         return true;
     }
-
-
-    public void cargarImagenPerfil() {
-        FirebaseUser Fuser = mAuth.getCurrentUser();
-        if (Fuser != null) {
-            if(Fuser.getPhotoUrl()!=null){
-                loadFirebaseImage(Fuser.getPhotoUrl());
-            }else {
-                Uri imagenUri=obtenerNuevaImagenSeleccionada();
-                if(imagenUri!=null){
-                    cargarNuevaImagen(imagenUri);
-                }else {
-                    // Si no hay una imagen guardada localmente, cargamos una imagen predeterminada
-                    cargarImagenPredeterminada();
-                }
-            }
-        }
-    }
-
-    public void cargarImagenPredeterminada() {
-        // Aquí es donde cargas tu imagen predeterminada
-        int idImagenPredeterminada = getResources().getIdentifier("person", "drawable", getPackageName());
-        if (idImagenPredeterminada != 0) {
-            Drawable imagenPredeterminada = getResources().getDrawable(idImagenPredeterminada);
-            menuItem.setIcon(imagenPredeterminada);
-        } else {
-            Toast.makeText(this, "Imagen predeterminada no disponible", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_profile) {
-            Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(pickPhoto, REQUEST_GALLERY_PERMISSION);
             return true;
         } else if (id == R.id.action_settings) {
             Intent intent=new Intent(PaginaPrincipal.this, Ajustes.class);

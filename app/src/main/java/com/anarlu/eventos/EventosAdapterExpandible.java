@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
 
     @Override
     public void onBindViewHolder(EventosAdapterExpandible.EventoViewHolder holder, int position) {
+        ImageView event_image=holder.itemView.findViewById(R.id.event_image);
         mFirestore=FirebaseFirestore.getInstance();
         Evento evento = eventos.get(position);
         holder.nombreEvento.setText(evento.getNombre());
@@ -59,6 +61,16 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
         holder.fecha_fin.setText("Fecha de finalizacion"+evento.getFecha_final());
         holder.hora_inicio.setText("Hora de inicio:"+evento.getHora_inicio());
         holder.hora_fin.setText("Hora de finalizacion:"+evento.getHora_final());
+        String tipo=evento.getTipo();
+
+        switch (tipo){
+            case "Deporte":
+                event_image.setImageResource(R.drawable.deportes);
+                break;
+            case "Senderismo":
+                event_image.setImageResource(R.drawable.senderismo);
+                break;
+        }
     }
 
     @Override
