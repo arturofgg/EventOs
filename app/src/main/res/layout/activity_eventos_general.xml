@@ -6,71 +6,110 @@
     android:layout_height="match_parent"
     tools:context=".activity_eventos_general">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardElevation="8dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/event_name"
+        <!-- Aquí va el contenido de tu tarjeta -->
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="NOMBRE DEL EVENTO" />
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/ubicacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Ubicacion" />
+            <ImageView
+                android:id="@+id/event_image"
+                android:layout_width="match_parent"
+                android:layout_height="235dp"
+                android:src="@drawable/logo" />
 
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="USUARIO" />
-
-        <TextView
-            android:id="@+id/descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="DESCRIPCION" />
-
-        <TextView
-            android:id="@+id/fecha_inicio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fecha de inicio" />
-
-        <TextView
-            android:id="@+id/hora_inicio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Hora de inicio" />
-
-        <TextView
-            android:id="@+id/fecha_finalizacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fecha fin" />
-
-        <TextView
-            android:id="@+id/hora_finalizacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Hora de fin" />
+            <TextView
+                android:id="@+id/event_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NOMBRE DEL EVENTO" />
 
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/desplegar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/card_content"
+                android:layout_width="match_parent"
+                android:layout_height="161dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/ubicacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ubicacion" />
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="USUARIO" />
+
+                    <TextView
+                        android:id="@+id/descripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="DESCRIPCION" />
+
+                    <TextView
+                        android:id="@+id/fecha_inicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha de inicio" />
+
+                    <TextView
+                        android:id="@+id/hora_inicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hora de inicio" />
+
+                    <TextView
+                        android:id="@+id/fecha_finalizacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha fin" />
+
+                    <TextView
+                        android:id="@+id/hora_finalizacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hora de fin" />
+                </LinearLayout>
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

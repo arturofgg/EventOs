@@ -1,10 +1,13 @@
 package com.anarlu.eventos;
 
 import android.content.DialogInterface;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.List;
 
@@ -61,6 +66,8 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
         public TextView hora_inicio;
         public TextView hora_fin;
         public TextView ubicacion;
+        public ExpandableLayout cardContent;
+        public Button desplegar;
 
         public EventoViewHolder(View itemView) {
             super(itemView);
@@ -72,6 +79,17 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
             hora_inicio=itemView.findViewById(R.id.hora_inicio);
             hora_fin=itemView.findViewById(R.id.hora_finalizacion);
             ubicacion=itemView.findViewById(R.id.ubicacion);
+            cardContent=itemView.findViewById(R.id.card_content);
+            desplegar=itemView.findViewById(R.id.desplegar);
+
+            cardContent.setVisibility(View.GONE);
+
+            desplegar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cardContent.toggle();
+                }
+            });
         }
     }
     public void updateData(List<Evento> newEventos) {
