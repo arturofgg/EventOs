@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,8 +36,8 @@ public class EventosFragment extends Fragment {
     private EventosAdapterExpandible adapter;
     private List<Evento> eventos;
     private FirebaseFirestore mFirestore;
-    private Toolbar toolbar;
-
+    private Spinner filtro;
+    private String tipoSeleccionado;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -49,27 +51,56 @@ public class EventosFragment extends Fragment {
 
         mFirestore=FirebaseFirestore.getInstance();
 
+        filtro=view.findViewById(R.id.filtro);
+
         eventos=new ArrayList<>();
         adapter=new EventosAdapterExpandible(eventos);
         recyclerView.setAdapter(adapter);
 
-            mFirestore.collection("Eventos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        eventos.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Evento evento = document.toObject(Evento.class);
-                            eventos.add(evento);
+        filtro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tipoSeleccionado=parent.getItemAtPosition(position).toString();
+                if(tipoSeleccionado.equals("Todos")){
+                    mFirestore.collection("Eventos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                eventos.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Evento evento = document.toObject(Evento.class);
+                                    eventos.add(evento);
+                                }
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Log.w(TAG, "Error getting documents.", task.getException());
+                            }
                         }
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Log.w(TAG, "Error getting documents.", task.getException());
-                    }
+                    });
+                }else {
+                    mFirestore.collection("Eventos").whereEqualTo("Tipo", tipoSeleccionado).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                eventos.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Evento evento = document.toObject(Evento.class);
+                                    eventos.add(evento);
+                                }
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Log.w(TAG, "Error getting documents.", task.getException());
+                            }
+                        }
+                    });
                 }
-            });
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
 
         return view;
     }

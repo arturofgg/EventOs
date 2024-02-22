@@ -39,7 +39,7 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
         Evento evento = eventos.get(position);
         holder.nombreEvento.setText(evento.getNombre());
         holder.nombreUsuario.setText("Creado por:"+evento.getNombre_usuario());
-        holder.ubicacion.setText("Ubicacion"+evento.getUbicacion());
+        holder.ubicacion.setText("Ubicacion:"+evento.getUbicacion());
         holder.descripcion.setText(evento.getDescripicion());
         holder.fecha_inicio.setText("Fecha de inicio:"+evento.getFecha_inicial());
         holder.fecha_fin.setText("Fecha de finalizacion"+evento.getFecha_final());

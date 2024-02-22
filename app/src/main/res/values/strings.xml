@@ -13,4 +13,14 @@
         <item>Meeting Politico</item>
         <item>Otros</item>
     </string-array>
+
+    <string-array name="filtro">
+        <item>Todos</item>
+        <item>Deporte</item>
+        <item>Fiesta</item>
+        <item>Senderismo</item>
+        <item>Paseo</item>
+        <item>Meeting Politico</item>
+        <item>Otros</item>
+    </string-array>
 </resources>
