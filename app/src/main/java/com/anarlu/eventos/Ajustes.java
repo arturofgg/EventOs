@@ -160,13 +160,22 @@ public class Ajustes extends AppCompatActivity {
         FirebaseUser user=mAuth.getCurrentUser();
         String idUser=user.getUid();
 
+        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "User account deleted.");
+                }
+            }
+        });
+
         mFirestore.collection("usuarios").document(idUser)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(Ajustes.this, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show();
-                        irLogin();
+                        logout();
                         finish();
                     }
                 })
@@ -233,9 +242,9 @@ public class Ajustes extends AppCompatActivity {
     private void cargarNuevaImagen(Uri imagenUri) {
         Glide.with(this)
                 .load(imagenUri)
-                .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
+                .circleCrop()
                 .into(user2);
         Glide.get(getApplicationContext()).clearMemory();
     }
@@ -391,6 +400,6 @@ public class Ajustes extends AppCompatActivity {
     }
 
     private void loadFirebaseImage(Uri photoUrl){
-        Glide.with(this).load(photoUrl).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
+        Glide.with(this).load(photoUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).circleCrop().into(user2);
     }
 }
