@@ -83,12 +83,6 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventoView
                         .show();
             }
         });
-        holder.botonEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Maneja el clic en el botón editar
-            }
-        });
     }
 
     @Override
@@ -99,13 +93,11 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventoView
     public static class EventoViewHolder extends RecyclerView.ViewHolder {
         public TextView nombreEvento;
         public Button botonEliminar;
-        public Button botonEditar;
 
         public EventoViewHolder(View itemView) {
             super(itemView);
             nombreEvento = itemView.findViewById(R.id.event_name);
             botonEliminar = itemView.findViewById(R.id.delete_event);
-            botonEditar = itemView.findViewById(R.id.edit_event);
         }
     }
 }
