@@ -25,18 +25,11 @@
 
         <Button
             android:id="@+id/delete_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
             android:layout_weight="1"
-            android:text="Eliminar Evento"
+            android:background="@drawable/basura"
             app:cornerRadius="0dp" />
 
-        <Button
-            android:id="@+id/edit_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Editar Evento"
-            app:cornerRadius="0dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
