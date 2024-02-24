@@ -88,7 +88,7 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
         public TextView hora_fin;
         public TextView ubicacion;
         public ExpandableLayout cardContent;
-        public Button desplegar;
+        public Button desplegar,contraer;
         public Button maps;
         public String ubi;
         private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -105,6 +105,7 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
             ubicacion=itemView.findViewById(R.id.ubicacion);
             cardContent=itemView.findViewById(R.id.card_content);
             desplegar=itemView.findViewById(R.id.desplegar);
+            contraer=itemView.findViewById(R.id.contraer);
             maps=itemView.findViewById(R.id.geo);
 
             cardContent.setVisibility(View.GONE);
@@ -114,6 +115,17 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
             desplegar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    desplegar.setVisibility(View.GONE);
+                    contraer.setVisibility(View.VISIBLE);
+                    cardContent.toggle();
+                }
+            });
+
+            contraer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    contraer.setVisibility(View.GONE);
+                    desplegar.setVisibility(View.VISIBLE);
                     cardContent.toggle();
                 }
             });

@@ -160,6 +160,8 @@ public class PaginaPrincipal extends AppCompatActivity {
         });
         // Cargar el primer fragmento por defecto
         viewPager.setCurrentItem(0);
+
+        getSupportActionBar().setTitle("Mis Eventos");
     }
 
     @Override

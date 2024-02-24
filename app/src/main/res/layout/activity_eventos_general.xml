@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="right"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -31,7 +32,7 @@
                 android:id="@+id/event_image"
                 android:layout_width="match_parent"
                 android:layout_height="235dp"
-                android:src="@drawable/logo"
+                android:src="@drawable/logobien"
                 android:scaleType="fitXY"/>
 
             <TextView
@@ -43,9 +44,15 @@
 
             <Button
                 android:id="@+id/desplegar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/flecha_hacia_abajo" />
+            <Button
+                android:id="@+id/contraer"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="gone"
+                android:background="@drawable/flecha_arriba" />
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/card_content"

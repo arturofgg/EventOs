@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mis Eventos</string>
+    <string name="app_name">Eventos</string>
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
     <!-- TODO: Remove or change this placeholder text -->
