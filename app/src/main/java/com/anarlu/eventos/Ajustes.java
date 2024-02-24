@@ -275,12 +275,13 @@ public class Ajustes extends AppCompatActivity {
         }
     }
 
+
     private void cargarNuevaImagen(Uri imagenUri) {
         Glide.with(this)
                 .load(imagenUri)
+                .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .circleCrop()
                 .into(user2);
         Glide.get(getApplicationContext()).clearMemory();
     }
@@ -295,6 +296,7 @@ public class Ajustes extends AppCompatActivity {
         return null;
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         options.setCircleDimmedLayer(true);
@@ -373,7 +375,6 @@ public class Ajustes extends AppCompatActivity {
                                     mFirestore.collection("usuarios").document(currentUser.getUid()).update(datosUsuario).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            recreate();
                                             Toast.makeText(Ajustes.this, "Foto guardada correctamente", Toast.LENGTH_SHORT).show();
                                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                     .setPhotoUri(Uri.parse(fotoUrl)) // Aquí debes poner la URL de la nueva foto
@@ -388,6 +389,10 @@ public class Ajustes extends AppCompatActivity {
                                                             }
                                                         }
                                                     });
+
+                                            Intent refresh = new Intent(Ajustes.this, Ajustes.class);
+                                            finish(); // Finaliza la actividad actual
+                                            startActivity(refresh); // Inicia la misma actividad
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -422,7 +427,6 @@ public class Ajustes extends AppCompatActivity {
         if(currentUser!=null){
             guardarImagen(nuevaImagenUri,currentUser.getUid());
         }
-        recreate();
     }
 
     private void guardarImagen(Uri imagenUri,String userId) {
@@ -436,6 +440,6 @@ public class Ajustes extends AppCompatActivity {
     }
 
     private void loadFirebaseImage(Uri photoUrl){
-        Glide.with(this).load(photoUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).circleCrop().into(user2);
+        Glide.with(this).load(photoUrl).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
     }
 }
