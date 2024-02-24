@@ -66,6 +66,7 @@ public class PaginaPrincipal extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
     private GoogleSignInClient mGoogleSignInClient;
+    private Drawable profileImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,15 +120,12 @@ public class PaginaPrincipal extends AppCompatActivity {
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_option1) {
                     viewPager.setCurrentItem(0);
-                    invalidateOptionsMenu();
                     return true;
                 } else if (itemId == R.id.nav_option2) {
                     viewPager.setCurrentItem(1);
-                    invalidateOptionsMenu();
                     return true;
                 } else if (itemId == R.id.nav_option3) {
                     viewPager.setCurrentItem(2);
-                    invalidateOptionsMenu();
                     return true;
                 }
                 return false;
@@ -162,12 +160,6 @@ public class PaginaPrincipal extends AppCompatActivity {
         viewPager.setCurrentItem(0);
 
         getSupportActionBar().setTitle("Mis Eventos");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        menuItem = menu.findItem(R.id.action_profile);
 
         // Obtener el usuario actual
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -192,7 +184,8 @@ public class PaginaPrincipal extends AppCompatActivity {
                                 @Override
                                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                                     // Establecer la imagen como ícono del perfil en el menú
-                                    menuItem.setIcon(resource);
+                                    profileImage=resource;
+                                    invalidateOptionsMenu();
                                 }
 
                                 @Override
@@ -209,7 +202,16 @@ public class PaginaPrincipal extends AppCompatActivity {
                 }
             });
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        menuItem = menu.findItem(R.id.action_profile);
+        // Si la imagen del perfil ya se ha descargado, establecerla como ícono del perfil en el menú
+        if (profileImage != null) {
+            menuItem.setIcon(profileImage);
+        }
         return true;
     }
 
