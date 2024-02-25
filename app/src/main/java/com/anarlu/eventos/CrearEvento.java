@@ -21,11 +21,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -66,10 +69,23 @@ public class CrearEvento extends AppCompatActivity {
         name=findViewById(R.id.etNombre);
         tipo=findViewById(R.id.tipo);
 
-        FirebaseUser user=mAuth.getCurrentUser();
-        if(user!=null){
-            user_name=user.getDisplayName();
-        }
+        DocumentReference docref=mFirestore.collection("usuarios").document(mAuth.getCurrentUser().getUid());
+        docref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document=task.getResult();
+                    if(document.exists()){
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        user_name=document.getString("usuario");
+                    }else{
+                        Log.d(TAG, "No such document");
+                    }
+                }else{
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
 
         tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

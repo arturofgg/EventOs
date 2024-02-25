@@ -61,7 +61,7 @@ public class EventosFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tipoSeleccionado=parent.getItemAtPosition(position).toString();
-                if(tipoSeleccionado.equals("Todos")){
+                if(tipoSeleccionado.equals("All/Todos") || tipoSeleccionado.equals("Todos/All")){
                     mFirestore.collection("Eventos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {

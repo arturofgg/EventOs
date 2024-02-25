@@ -29,6 +29,8 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:background="@drawable/basura"
+            android:scaleX="0.25"
+            android:scaleY="0.5"
             app:cornerRadius="0dp" />
 
     </LinearLayout>

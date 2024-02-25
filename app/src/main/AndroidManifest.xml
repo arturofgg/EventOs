@@ -55,6 +55,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PaginaPrincipal" />
         </activity>
+        <activity android:name=".RecuperarContrasenaActivity"
+            android:exported="true"
+            android:parentActivityName=".LRFragmentsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"

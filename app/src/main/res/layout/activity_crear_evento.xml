@@ -7,7 +7,6 @@
     tools:context=".PaginaPrincipal">
 
     <!-- AppBar -->
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -20,160 +19,178 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/azulClaro"
             android:textAlignment="center"
-            app:title="Crear evento"
+            app:title="@string/create_event_title"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Guidelines -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="360sp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:hint="@string/event_name_hint"
+        android:inputType="textCapSentences"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <EditText
+        android:id="@+id/etUbicacion"
+        android:layout_width="360sp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/location_hint"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/etNombre" />
+
+    <EditText
+        android:id="@+id/etDescripcion"
+        android:layout_width="360sp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/description_hint"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/etUbicacion" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="78dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/schedule"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
+
+    <TextView
+        android:id="@+id/hora_ini"
+        android:layout_width="90sp"
+        android:layout_height="40dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="50dp"
+        android:contextClickable="false"
+        android:ems="10"
+        android:hint="@string/start_time_hint"
+        android:inputType="text"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
+
+    <TextView
+        android:id="@+id/hora_fin"
+        android:layout_width="80sp"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/end_time_hint"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toEndOf="@id/hora_ini"
+        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/date"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/fecha_ini"
+        android:layout_width="100sp"
+        android:layout_height="40dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="28dp"
+        android:contextClickable="false"
+        android:ems="10"
+        android:hint="@string/start_date_hint"
+        android:inputType="text"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/hora_ini" />
+
+    <TextView
+        android:id="@+id/fecha_fin"
+        android:layout_width="90sp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="@string/end_date_hint"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toEndOf="@id/fecha_ini"
+        app:layout_constraintTop_toBottomOf="@+id/hora_fin" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/type"
+        android:textSize="18sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Spinner
+        android:id="@+id/tipo"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="40dp"
+        android:entries="@array/Tipo"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/btnGuardar"
         style="@style/botonlogin"
-        android:layout_width="390dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="136dp"
-        android:text="Crear Evento"
+        android:layout_marginBottom="72dp"
+        android:backgroundTint="@color/naranja"
+        android:text="@string/create_event_button"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/etDescripcion"
-        android:layout_width="396dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="12dp"
-        android:hint="Descripción"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUbicacion" />
-
-    <EditText
-        android:id="@+id/etUbicacion"
-        android:layout_width="391dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="12dp"
-        android:hint="Ubicación"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etNombre" />
-
-    <EditText
-        android:id="@+id/etNombre"
-        android:layout_width="391dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="108dp"
-        android:hint="Nombre del Evento"
-        android:inputType="textCapSentences"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="67dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="Horario:"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
-
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="67dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="37dp"
-        android:text="Fecha:"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="67dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        android:text="Tipo:"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/hora_ini"
-        android:layout_width="123dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:contextClickable="false"
-        android:ems="10"
-        android:hint="Hora inicial"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
-
-    <TextView
-        android:id="@+id/fecha_ini"
-        android:layout_width="128dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="34dp"
-        android:contextClickable="false"
-        android:ems="10"
-        android:hint="Fecha inicio"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:autoSizeTextType="none"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/hora_ini" />
-
-    <TextView
-        android:id="@+id/hora_fin"
-        android:layout_width="123dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:hint="Hora final"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/hora_ini"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcion" />
-
-    <TextView
-        android:id="@+id/fecha_fin"
-        android:layout_width="123dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="34dp"
-        android:ems="10"
-        android:hint="Fecha final"
-        android:inputType="text"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/fecha_ini"
-        app:layout_constraintTop_toBottomOf="@+id/hora_fin" />
-
-    <Spinner
-        android:id="@+id/tipo"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="464dp"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="parent"
-        android:entries="@array/Tipo"/>
-
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,6 +70,11 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
             case "Senderismo":
                 event_image.setImageResource(R.drawable.senderismo);
                 break;
+            case "Fiesta":
+                event_image.setImageResource(R.drawable.fiesta);
+                break;
+            case "Paseo":
+                event_image.setImageResource(R.drawable.paseo);
         }
     }
 
