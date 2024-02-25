@@ -62,20 +62,24 @@
 
     <!--TIPOS DE EVENTO-->
     <string-array name="Tipo">
-        <item>Sport/Deportes</item>
-        <item>Party/Fiesta</item>
-        <item>Hiking/Senderismo</item>
-        <item>Walk/Paseo</item>
-        <item>Others/Otros</item>
+        <item>Deporte/Sports</item>
+        <item>Fiesta/Party</item>
+        <item>Senderismo/Hiking</item>
+        <item>Paseo/Walk</item>
+        <item>Otros/Others</item>
     </string-array>
 
+
     <string-array name="filtro">
-        <item>All/Todos</item>
-        <item>Spor/Deportes</item>
-        <item>Party/Fiesta</item>
-        <item>Hiking/Senderismo</item>
-        <item>Walk/Paseo</item>
-        <item>Others/Otros</item>
+        <item>Todos/All</item>
+        <item>Deporte/Sports</item>
+        <item>Fiesta/Party</item>
+        <item>Senderismo/Hiking</item>
+        <item>Paseo/Walk</item>
+        <item>Otros/Others</item>
     </string-array>
+
+    <!--TOAST-->
+    <string name="Toast_Password">Password must have at least 6 characters</string>
 
 </resources>

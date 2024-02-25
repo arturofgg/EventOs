@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +35,11 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventoView
 
     @Override
     public void onBindViewHolder(EventoViewHolder holder, int position) {
+        ImageView event_image=holder.itemView.findViewById(R.id.event_image);
         mFirestore=FirebaseFirestore.getInstance();
         Evento evento = eventos.get(position);
         holder.nombreEvento.setText(evento.getNombre());
+        String tipo=evento.getTipo();
         // Configura los listeners para tus botones aquí
         holder.botonEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +86,21 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventoView
                         .show();
             }
         });
+
+        switch (tipo){
+            case "Deporte/Sport":
+                event_image.setImageResource(R.drawable.deportes);
+                break;
+            case "Senderismo/Hiking":
+                event_image.setImageResource(R.drawable.senderismo);
+                break;
+            case "Fiesta/Party":
+                event_image.setImageResource(R.drawable.fiesta);
+                break;
+            case "Paseo/Walk":
+                event_image.setImageResource(R.drawable.paseo);
+                break;
+        }
     }
 
     @Override

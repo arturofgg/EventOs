@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/BottomNavigationViewStyle"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerPaginaPrincipal"

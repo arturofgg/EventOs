@@ -64,17 +64,18 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
         String tipo=evento.getTipo();
 
         switch (tipo){
-            case "Deporte":
+            case "Deporte/Sport":
                 event_image.setImageResource(R.drawable.deportes);
                 break;
-            case "Senderismo":
+            case "Senderismo/Hiking":
                 event_image.setImageResource(R.drawable.senderismo);
                 break;
-            case "Fiesta":
+            case "Fiesta/Party":
                 event_image.setImageResource(R.drawable.fiesta);
                 break;
-            case "Paseo":
+            case "Paseo/Walk":
                 event_image.setImageResource(R.drawable.paseo);
+                break;
         }
     }
 

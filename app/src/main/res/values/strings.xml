@@ -78,4 +78,7 @@
         <item>Paseo/Walk</item>
         <item>Otros/Others</item>
     </string-array>
+
+    <!--TOAST-->
+    <string name="Toast_Password">La contraseña debe tener al menos 6 caracteres</string>
 </resources>

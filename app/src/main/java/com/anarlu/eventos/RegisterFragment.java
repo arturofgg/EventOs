@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,6 +98,7 @@ public class RegisterFragment extends Fragment {
                 signIn();
             }
         });
+        
 
         botonregistro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +110,9 @@ public class RegisterFragment extends Fragment {
 
                 if(nameUser.isEmpty() || emailUser.isEmpty() || passUser.isEmpty()){
                     Toast.makeText(getActivity(),"Por favor rellene todos los campos",Toast.LENGTH_SHORT).show();
-                }else {
+                } else if (passUser.length()<6) {
+                    Toast.makeText(getActivity(), R.string.Toast_Password, Toast.LENGTH_SHORT).show();
+                } else {
                     mFirestore.collection("usuarios").whereEqualTo("usuario", nameUser).get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
@@ -191,7 +196,7 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(getActivity(), "El correo electrónico ya está en uso", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), "Error al registrar 2", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Error al registrar 2", Toast.LENGTH_SHORT).show();
                 }
             }
         });

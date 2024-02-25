@@ -3,6 +3,7 @@ package com.anarlu.eventos;
 import static android.content.ContentValues.TAG;
 
 import android.app.Instrumentation;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,24 @@ public class EventosFragment extends Fragment {
         eventos=new ArrayList<>();
         adapter=new EventosAdapterExpandible(eventos);
         recyclerView.setAdapter(adapter);
+        int espacio=16;
+
+        RecyclerView.ItemDecoration itemDecoration=new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    // No añade espacio en la parte superior del primer elemento
+                    outRect.top = 0;
+                } else {
+                    // Añade espacio en la parte superior para los demás elementos
+                    outRect.top = espacio;
+                }
+            }
+        };
+        recyclerView.addItemDecoration(itemDecoration);
+
 
         filtro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

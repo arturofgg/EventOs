@@ -10,11 +10,11 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="96dp"
         android:clickable="true"
         android:focusable="true"
-        app:cardElevation="8dp"
         app:cardBackgroundColor="@color/azulOscuro"
+        app:cardElevation="8dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,8 +24,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="right"
+            android:orientation="vertical"
             android:padding="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,14 +34,15 @@
                 android:id="@+id/event_image"
                 android:layout_width="match_parent"
                 android:layout_height="235dp"
-                android:src="@drawable/logobien"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/logobien" />
 
             <TextView
                 android:id="@+id/event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NOMBRE DEL EVENTO" />
+                android:text="NOMBRE DEL EVENTO"
+                android:textColor="@color/white" />
 
 
             <Button
@@ -49,12 +50,13 @@
                 android:layout_width="85dp"
                 android:layout_height="85dp"
                 android:background="@drawable/flecha_hacia_abajo" />
+
             <Button
                 android:id="@+id/contraer"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:visibility="gone"
-                android:background="@drawable/flecha_arriba" />
+                android:background="@drawable/flecha_arriba"
+                android:visibility="gone" />
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/card_content"
@@ -76,56 +78,64 @@
                         android:id="@+id/ubicacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:text="Ubicacion" />
+                        android:text="Ubicacion"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:text="USUARIO" />
+                        android:text="USUARIO"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/descripcion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:text="DESCRIPCION" />
+                        android:text="DESCRIPCION"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/fecha_inicio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:text="Fecha de inicio" />
+                        android:text="Fecha de inicio"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/hora_inicio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:text="Hora de inicio" />
+                        android:text="Hora de inicio"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/fecha_finalizacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:text="Fecha fin" />
+                        android:text="Fecha fin"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/hora_finalizacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:text="Hora de fin" />
+                        android:text="Hora de fin"
+                        android:textColor="@color/white" />
 
-                    <Button
-                        android:id="@+id/geo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Maps" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/geo"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/iconomaps"
+                            />
+                    </LinearLayout>
                 </LinearLayout>
 
             </net.cachapa.expandablelayout.ExpandableLayout>
