@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="228dp"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/person" />
@@ -78,6 +78,7 @@
         android:layout_width="330dp"
         android:layout_height="60dp"
         android:layout_marginTop="28dp"
+        android:layout_marginStart="2dp"
         android:ems="10"
         android:inputType="text"
         android:textColor="@color/white"
@@ -94,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="46dp"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:srcCompat="@drawable/email" />
@@ -104,6 +105,7 @@
         android:layout_width="330dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="2dp"
         android:inputType="textEmailAddress"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@id/guidelineRight"
@@ -120,7 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/emialR"
         app:srcCompat="@drawable/lock_pass" />
@@ -160,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="56dp"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/lockR"
         app:srcCompat="@drawable/lock_pass" />
