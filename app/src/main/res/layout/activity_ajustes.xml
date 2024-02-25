@@ -4,54 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Ajustes">
 
     <!-- AppBar -->
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/azulClaro"
+        android:elevation="4dp"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/AppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/azulClaro"
             android:textAlignment="center"
             app:title="Ajustes"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Guidelines -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="137dp"
         android:layout_height="139dp"
-        android:layout_marginStart="141dp"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:srcCompat="@drawable/masnaranja" />
+        app:srcCompat="@drawable/masnaranja"
+        tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="267dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginBottom="264dp"
-        android:text="Cerrar Sesión"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        style="@style/botonlogin"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/naranja"
+        android:text="@string/logout"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/delete"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft" />
 
     <Button
         android:id="@+id/delete"
-        android:layout_width="267dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginBottom="136dp"
-        android:text="Borrar cuenta"
+        style="@style/botonlogin"
+        android:layout_marginBottom="72dp"
+        android:backgroundTint="@color/naranjaOscuro"
+        android:text="@string/delete_account"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/guidelineLeft" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

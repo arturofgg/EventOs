@@ -11,9 +11,9 @@
         android:id="@+id/recycler_view"
         android:layout_width="397dp"
         android:layout_height="636dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
@@ -21,9 +21,9 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="6dp"
+        android:entries="@array/filtro"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:entries="@array/filtro"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -143,15 +143,15 @@ public class PaginaPrincipal extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         bottomNavigationView.setSelectedItemId(R.id.nav_option1);
-                        toolbar.setTitle("Mis Eventos");
+                        toolbar.setTitle(R.string.my_events);
                         break;
                     case 1:
                         bottomNavigationView.setSelectedItemId(R.id.nav_option2);
-                        toolbar.setTitle("Chat");
+                        toolbar.setTitle(R.string.chat);
                         break;
                     case 2:
                         bottomNavigationView.setSelectedItemId(R.id.nav_option3);
-                        toolbar.setTitle("Eventos");
+                        toolbar.setTitle(R.string.events);
                         break;
                 }
             }
@@ -160,6 +160,9 @@ public class PaginaPrincipal extends AppCompatActivity {
         });
         // Cargar el primer fragmento por defecto
         viewPager.setCurrentItem(0);
+
+        // Establecer el título de la aplicación en la barra de herramientas
+        getSupportActionBar().setTitle(R.string.my_events);
     }
 
     @Override

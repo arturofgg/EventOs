@@ -1,14 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_option1"
-        android:title="Mis Eventos"
+        android:title="@string/my_events"
         android:icon="@drawable/casa"/>
     <item
         android:id="@+id/nav_option2"
-        android:title="Chat"
+        android:title="@string/chat"
         android:icon="@drawable/mensajero"/>
     <item
         android:id="@+id/nav_option3"
-        android:title="Eventos"
+        android:title="@string/events"
         android:icon="@drawable/logo"/>
 </menu>
