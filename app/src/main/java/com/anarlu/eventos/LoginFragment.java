@@ -63,7 +63,7 @@ public class LoginFragment extends Fragment {
                 String passUser=pass.getText().toString().trim();
 
                 if(emailUser.isEmpty() || passUser.isEmpty()){
-                    Toast.makeText(getActivity(), "Rellene todos los campos por favor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.ToastCampos, Toast.LENGTH_SHORT).show();
                 }else{
                     loginUser(emailUser,passUser);
                 }
@@ -78,7 +78,7 @@ public class LoginFragment extends Fragment {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     irEventos();
-                    Toast.makeText(getActivity(), "Bienvenido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.Welcome, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -90,7 +90,7 @@ public class LoginFragment extends Fragment {
                     pass.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                     mail.requestFocus();
                     mail.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
-                    Toast.makeText(getActivity(), "USUARIO O CONTRASEÑA INCORRECTOS", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.ToastUserPass, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -98,7 +98,7 @@ public class LoginFragment extends Fragment {
 
     //CAMBIAR LA CLASE
     private void irEventos() {
-        Intent intent=new Intent(getActivity(),LoginFragment.class);
+        Intent intent=new Intent(getActivity(),LRFragmentsActivity.class);
         startActivity(intent);
     }
 

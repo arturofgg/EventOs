@@ -6,34 +6,99 @@
     android:layout_height="match_parent"
     tools:context=".RecuperarContrasenaActivity">
 
-    <EditText
-        android:id="@+id/emailInputRC"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@color/azulOscuro"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/resetPasswordButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="Reset Password"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButton" />
+        <!-- Guidelines -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
 
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Volver"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailInputRC" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <TextView
+            android:id="@+id/resetPasswordMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:text="@string/forgot_password"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/resetPasswordSubMessage"
+            android:layout_width="290sp"
+            android:layout_height="45sp"
+            android:layout_marginTop="8dp"
+            android:text="@string/reset_password_submessage"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/resetPasswordMessage" />
+
+        <EditText
+            android:id="@+id/emailInputRC"
+            android:layout_width="340dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:hint="@string/email_hint"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/resetPasswordSubMessage" />
+
+        <Button
+            android:id="@+id/resetPasswordButton"
+            style="@style/botonlogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:textSize="16sp"
+            android:text="@string/reset_password_button"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/naranja"
+            android:fontFamily="@font/inter"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/emailInputRC" />
+
+        <Button
+            android:id="@+id/backButton"
+            style="@style/botonlogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="72dp"
+            android:backgroundTint="@color/gris"
+            android:fontFamily="@font/inter"
+            android:text="@string/back_to_login"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/guidelineLeft" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

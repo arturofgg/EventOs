@@ -5,8 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,15 +36,6 @@ import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -56,69 +46,43 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.yalantis.ucrop.UCrop;
 
+import org.checkerframework.checker.units.qual.A;
 
-public class TusEventos extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private EventoAdapter adapter;
-    private List<Evento> eventos;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Ajustes extends AppCompatActivity {
 
     private Button logout,borrar;
-
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-    private ImageView user2,creacion;
-    private static final int REQUEST_CAMERA_PERMISSION=2020;
-
-    private UCrop.Options options;
-
     private GoogleSignInClient mGoogleSignInClient;
+    private ImageView user2;
+    private UCrop.Options options;
     private Drawable persona;
-
-
+    private static final int REQUEST_GALLERY_PERMISSION=2020;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tus_eventos);
+        setContentView(R.layout.activity_ajustes);
 
-        recyclerView=findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        eventos=new ArrayList<>();
-        adapter=new EventoAdapter(eventos);
-        recyclerView.setAdapter(adapter);
-
-        mFirestore=FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
         logout = findViewById(R.id.logout);
-        user2 = findViewById(R.id.imageView2);
         borrar=findViewById(R.id.delete);
+        user2 = findViewById(R.id.imageView2);
         options = new UCrop.Options();
-        creacion=findViewById(R.id.imageView5);
-
-        FirebaseApp.initializeApp(/*context=*/ this);
-        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
-        firebaseAppCheck.installAppCheckProviderFactory(
-                PlayIntegrityAppCheckProviderFactory.getInstance());
-
         user2.setScaleType(ImageView.ScaleType.FIT_XY);
-
         options.setCircleDimmedLayer(true);
         options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("90656351526-1hp02rmkk4ip4fnfbboj3b441ml7e1f1.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
         int idImagenPredeterminada = getResources().getIdentifier("person", "drawable", getPackageName());
 
         if (idImagenPredeterminada != 0) {
             persona = getResources().getDrawable(idImagenPredeterminada);
         } else {
-            Toast.makeText(this, "Imagen no dispobible", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.noImage, Toast.LENGTH_SHORT).show();
         }
 
         user2.setOnClickListener(new View.OnClickListener() {
@@ -126,17 +90,37 @@ public class TusEventos extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto, REQUEST_CAMERA_PERMISSION);
+                startActivityForResult(pickPhoto, REQUEST_GALLERY_PERMISSION);
             }
         });
+
+        Toolbar toolbar = findViewById(R.id.AppBar);
+        setSupportActionBar(toolbar);
+        // Habilitar la flecha de retroceso
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mFirestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseApp.initializeApp(/*context=*/ this);
+        FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+        firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("606138593322-qmo8r77q8faabttijt0tj9e6aiai0rtm.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(TusEventos.this)
-                        .setTitle("Cerrar Sesión")
-                        .setMessage("¿Estás seguro que quiere cerrar sesión?")
-                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(Ajustes.this)
+                        .setTitle(R.string.LogOut)
+                        .setMessage(R.string.SureLogOut)
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 logout();
                             }
@@ -150,10 +134,10 @@ public class TusEventos extends AppCompatActivity {
         borrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(TusEventos.this)
-                        .setTitle("Borrar cuenta")
-                        .setMessage("¿Estás seguro que quiere borrar su cuenta? Esta accion no tendrá marcha atrás.")
-                        .setPositiveButton("Sí, estoy seguro", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(Ajustes.this)
+                        .setTitle(R.string.DeleteAccount)
+                        .setMessage(R.string.SureDeleteAccount)
+                        .setPositiveButton(R.string.YDeleteAccount, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 borrarUsuario();
                             }
@@ -163,35 +147,87 @@ public class TusEventos extends AppCompatActivity {
                         .show();
             }
         });
+    }
 
-        creacion.setOnClickListener(new View.OnClickListener() {
+    private void logout() {
+        mAuth.signOut();
+        mGoogleSignInClient.signOut();
+        Intent i = this.getPackageManager().getLaunchIntentForPackage(this.getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        irLogin();
+    }
+
+    private void borrarUsuario(){
+        FirebaseUser user=mAuth.getCurrentUser();
+        String idUser=user.getUid();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child("perfil/" + idUser);
+
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onClick(View v) {
-                CrearNuevoEvento();
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "User image deleted.");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d(TAG, "Error deleting user image: ", exception);
             }
         });
 
-        if(mAuth.getCurrentUser()!=null){
-            String userId=mAuth.getCurrentUser().getUid();
-            mFirestore.collection("Eventos").whereEqualTo("ID_usuario",userId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        eventos.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Evento evento = document.toObject(Evento.class);
-                            eventos.add(evento);
-                        }
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Log.w(TAG, "Error getting documents.", task.getException());
-                    }
+
+        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "User account deleted.");
                 }
-            });
-        }
+            }
+        });
+
+        mFirestore.collection("Eventos")
+                .whereEqualTo("ID_usuario", idUser)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                document.getReference().delete();
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+        mFirestore.collection("usuarios").document(idUser)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(Ajustes.this, R.string.DoneDeleteUser, Toast.LENGTH_SHORT).show();
+                        logout();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Ajustes.this, R.string.ErrorDeleteUser, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    @Override
+    private void irLogin(){
+        Intent intent=new Intent(Ajustes.this, LRFragmentsActivity.class);
+        startActivity(intent);
+    }
+
     protected void onStart() {
         super.onStart();
         FirebaseUser Fuser = mAuth.getCurrentUser();
@@ -260,28 +296,13 @@ public class TusEventos extends AppCompatActivity {
         return null;
     }
 
-    private void logout() {
-        mAuth.signOut();
-        mGoogleSignInClient.signOut();
-        Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-        irLogin();
-    }
-
-    private void irLogin(){
-        Intent intent=new Intent(TusEventos.this, LRFragmentsActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         options.setCircleDimmedLayer(true);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (requestCode == REQUEST_GALLERY_PERMISSION) {
                 Uri imageUri = data.getData();
                 if (imageUri != null) {
                     user2.setImageURI(imageUri);
@@ -290,7 +311,7 @@ public class TusEventos extends AppCompatActivity {
                     UCrop.of(imageUri, destinoUri).withOptions(options).start(this);
                 } else {
                     // Puede que haya casos donde la imagenUri sea nula, debes manejarlo adecuadamente
-                    Toast.makeText(this, "Error al obtener la imagen de la cámara", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.ErrorCamera, Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == UCrop.REQUEST_CROP) {
                 handleCropResult(data);
@@ -299,8 +320,8 @@ public class TusEventos extends AppCompatActivity {
             // Manejar el error del recorte
             final Throwable cropError = UCrop.getError(data);
             if (cropError != null) {
-                Log.e("UCrop", "Error al recortar la imagen", cropError);
-                Toast.makeText(this, "Error al recortar la imagen", Toast.LENGTH_SHORT).show();
+                Log.e("UCrop", "Error cropping the image", cropError);
+                Toast.makeText(this, R.string.ErrorCropImage, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -318,7 +339,7 @@ public class TusEventos extends AppCompatActivity {
 
             cambiarFotoPerfil(resultUri);
         } else {
-            Toast.makeText(this, "Error al obtener la imagen recortada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.ErrorGetCropImage, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -334,7 +355,7 @@ public class TusEventos extends AppCompatActivity {
         fotoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.d("Eliminar foto", "Eliminacion exitosa");
+                Log.d("Delete image", "Successful deletion");
 
                 // Subir la nueva foto después de eliminar la anterior
                 UploadTask uploadTask = fotoRef.putFile(resultUri);
@@ -354,7 +375,7 @@ public class TusEventos extends AppCompatActivity {
                                     mFirestore.collection("usuarios").document(currentUser.getUid()).update(datosUsuario).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            Toast.makeText(TusEventos.this, "Foto guardada correctamente", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Ajustes.this, R.string.SaveImage, Toast.LENGTH_SHORT).show();
                                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                     .setPhotoUri(Uri.parse(fotoUrl)) // Aquí debes poner la URL de la nueva foto
                                                     .build();
@@ -368,11 +389,15 @@ public class TusEventos extends AppCompatActivity {
                                                             }
                                                         }
                                                     });
+
+                                            Intent refresh = new Intent(Ajustes.this, Ajustes.class);
+                                            finish(); // Finaliza la actividad actual
+                                            startActivity(refresh); // Inicia la misma actividad
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(TusEventos.this, "Error al actualizar la foto", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Ajustes.this, R.string.ErrorUpdateImage, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -382,15 +407,15 @@ public class TusEventos extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(TusEventos.this, "Error al subir la nueva foto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Ajustes.this, R.string.ErrorUploadImage, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e("Eliminar foto", "Error al eliminar foto:" + e.getMessage());
-                Toast.makeText(TusEventos.this, "Error al eliminar foto anterior: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("Delete Image", "Error deleting image:" + e.getMessage());
+                Toast.makeText(Ajustes.this, R.string.ErrorDeleteImage + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -417,31 +442,4 @@ public class TusEventos extends AppCompatActivity {
     private void loadFirebaseImage(Uri photoUrl){
         Glide.with(this).load(photoUrl).circleCrop().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(user2);
     }
-
-    private void borrarUsuario(){
-        FirebaseUser user=mAuth.getCurrentUser();
-        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(TusEventos.this, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show();
-                    irLogin();
-                    finish();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(TusEventos.this, "Error al eliminar usaurio", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void CrearNuevoEvento(){
-        Intent intent=new Intent(TusEventos.this, CrearEvento.class);
-        startActivity(intent);
-    }
-
-
-
 }

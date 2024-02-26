@@ -77,6 +77,8 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.google.firebase:firebase-appcheck:17.0.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("androidx.transition:transition:1.4.1")
+    implementation("net.cachapa.expandablelayout:expandablelayout:2.9.2")
 
 
 

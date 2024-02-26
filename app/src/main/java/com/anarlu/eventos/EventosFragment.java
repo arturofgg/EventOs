@@ -3,17 +3,24 @@ package com.anarlu.eventos;
 import static android.content.ContentValues.TAG;
 
 import android.app.Instrumentation;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,42 +34,93 @@ import java.util.List;
 public class EventosFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private EventoAdapter adapter;
+    private EventosAdapterExpandible adapter;
     private List<Evento> eventos;
     private FirebaseFirestore mFirestore;
-
+    private Spinner filtro;
+    private String tipoSeleccionado;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_eventos,container,false);
+
+        // Indicar que este fragmento tiene su propio menú de opciones
+        setHasOptionsMenu(true);
 
         recyclerView=view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mFirestore=FirebaseFirestore.getInstance();
 
+        filtro=view.findViewById(R.id.filtro);
+
         eventos=new ArrayList<>();
-        adapter=new EventoAdapter(eventos);
+        adapter=new EventosAdapterExpandible(eventos);
         recyclerView.setAdapter(adapter);
+        int espacio=16;
 
-            mFirestore.collection("Eventos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        eventos.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Evento evento = document.toObject(Evento.class);
-                            eventos.add(evento);
-                        }
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Log.w(TAG, "Error getting documents.", task.getException());
-                    }
+        RecyclerView.ItemDecoration itemDecoration=new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    // No añade espacio en la parte superior del primer elemento
+                    outRect.top = 0;
+                } else {
+                    // Añade espacio en la parte superior para los demás elementos
+                    outRect.top = espacio;
                 }
-            });
+            }
+        };
+        recyclerView.addItemDecoration(itemDecoration);
 
 
+        filtro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tipoSeleccionado=parent.getItemAtPosition(position).toString();
+                if(tipoSeleccionado.equals("All/Todos") || tipoSeleccionado.equals("Todos/All")){
+                    mFirestore.collection("Eventos").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                eventos.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Evento evento = document.toObject(Evento.class);
+                                    eventos.add(evento);
+                                }
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Log.w(TAG, "Error getting documents.", task.getException());
+                            }
+                        }
+                    });
+                }else {
+                    mFirestore.collection("Eventos").whereEqualTo("Tipo", tipoSeleccionado).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                eventos.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Evento evento = document.toObject(Evento.class);
+                                    eventos.add(evento);
+                                }
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Log.w(TAG, "Error getting documents.", task.getException());
+                            }
+                        }
+                    });
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return view;
     }
+
 }
