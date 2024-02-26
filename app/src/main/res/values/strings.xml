@@ -7,9 +7,14 @@
     <string name="emailuser_hint">Correo electrónico o Usuario</string>
     <string name="password_hint">Contraseña</string>
 
+    <!--LOGIN Y REGISTER-->
+    <string name="ToastCampos">Por favor rellene todos los campos</string>
+    <string name="Welcome">Bienvenido</string>
+
     <!--LOGIN-->
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="start_session">Iniciar Sesión</string>
+    <string name="ToastUserPass">Usuario o contraseña incorrectos</string>
 
     <!--REGISTER-->
     <string name="username_hint">Usuario</string>
@@ -17,11 +22,23 @@
     <string name="repeat_password_hint">Repita su contraseña</string>
     <string name="register_button">Registrarse</string>
     <string name="register_with_google">Registrarse con Google</string>
+    <string name="Toast_password">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="ToastUser">El nombre de usuario ya está en uso</string>
+    <string name="ToastDifferentPass">Las contraseñas no coinciden</string>
+    <string name="RegistError">Error al registrar</string>
+    <string name="SaveUserError">Error al guardar usuario</string>
+    <string name="ToastEmail">El correo electrónico ya está en uso</string>
+    <string name="ToastLoginError">Error de inicio de sesion</string>
+    <string name="ToastRegistFail">Registro fallido</string>
+    <string name="ToastFileErrorUp">Error al subir archivo</string>
 
     <!--RECUPERAR CONTRASEÑA-->
     <string name="reset_password_submessage">Introduce tu correo electrónico para recuperarla.</string>
     <string name="reset_password_button">Enviar Correo de Recuperación</string>
     <string name="back_to_login">Volver al Inicio de Sesión</string>
+    <string name="PleaseEmail">Por favor, introduce tu email</string>
+    <string name="LinkPassword">Enlace de nueva contraseña enviado</string>
+    <string name="ErrorLinkPassword">Error al enviar el correo de restablecimiento de contraseña</string>
 
     <!--CREAR EVENTO-->
     <string name="create_event">Crea un nuevo evento!</string>
@@ -60,25 +77,62 @@
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
 
-    <!--TIPOS DE EVENTO-->
-    <string-array name="Tipo">
-        <item>Deporte/Sports</item>
-        <item>Fiesta/Party</item>
-        <item>Senderismo/Hiking</item>
-        <item>Paseo/Walk</item>
-        <item>Otros/Others</item>
-    </string-array>
-
-
-    <string-array name="filtro">
-        <item>Todos/All</item>
-        <item>Deporte/Sports</item>
-        <item>Fiesta/Party</item>
-        <item>Senderismo/Hiking</item>
-        <item>Paseo/Walk</item>
-        <item>Otros/Others</item>
-    </string-array>
-
     <!--TOAST-->
     <string name="Toast_Password">La contraseña debe tener al menos 6 caracteres</string>
+
+    <!--AJUSTES-->
+    <string name="AppBarSettings">Ajustes</string>
+    <string name="noImage">Imagen no dispobible</string>
+    <string name="LogOut">Cerrar Sesión</string>
+    <string name="SureLogOut">¿Está seguro que quiere cerrar sesión?</string>
+    <string name="DeleteAccount">Borrar cuenta</string>
+    <string name="SureDeleteAccount">¿Está seguro que quiere borrar su cuenta? Esta accion no tendrá marcha atrás</string>
+    <string name="YDeleteAccount">Sí, estoy seguro</string>
+    <string name="DoneDeleteUser">Usuario eliminado correctamente</string>
+    <string name="ErrorDeleteUser">Error al eliminar usuario</string>
+    <string name="ErrorCamera">Error al obtener la imagen de la cámara</string>
+    <string name="ErrorCropImage">Error al recortar la imagen</string>
+    <string name="ErrorGetCropImage">Error al obtener la imagen recortada</string>
+    <string name="SaveImage">Foto guardada correctamente</string>
+    <string name="ErrorUpdateImage">Error al actualizar la foto</string>
+    <string name="ErrorUploadImage">Error al subir la nueva foto</string>
+    <string name="ErrorDeleteImage">Error al eliminar foto anterior</string>
+
+    <!--CREAR EVENTO-->
+    <string name="ChooseType">Por favor escoja un tipo</string>
+    <string name="FillFields">Rellene todos los campos</string>
+    <string name="EventCreated">Evento creado</string>
+        <!--TIPOS DE EVENTO-->
+        <string-array name="Tipo">
+            <item>Deporte/Sports</item>
+            <item>Fiesta/Party</item>
+            <item>Senderismo/Hiking</item>
+            <item>Paseo/Walk</item>
+            <item>Otros/Others</item>
+        </string-array>
+        <string-array name="filtro">
+            <item>Todos/All</item>
+            <item>Deporte/Sports</item>
+            <item>Fiesta/Party</item>
+            <item>Senderismo/Hiking</item>
+            <item>Paseo/Walk</item>
+            <item>Otros/Others</item>
+        </string-array>
+
+    <!--EVENTO ADAPTER -->
+    <string name="DeleteEvent">Eliminar Evento</string>
+    <string name="SureDeleteEvent">¿Estás seguro que quiere eliminar este evento?</string>
+    <string name="Yes">Sí</string>
+    <string name="ErrorDeleteEvent">Error al eliminar el evento: </string>
+
+    <!--EVENTO ADAPTER EXPANDIBLE-->
+    <string name="NoMapInstalled">Google Maps no está instalado en el dispositivo</string>
+    <string name="CreatedBy">Creado por</string>
+    <string name="StartDate">Fecha de inicio:</string>
+    <string name="EndDate">Fecha de finalización:</string>
+    <string name="StartTime">Hora de inicio:</string>
+    <string name="EndTime">Hora de finalización:</string>
+
+    <!--LRFRAGMENTS y PAGINA PRINCIPAL-->
+    <string name="BackExit">Presione ATRÁS de nuevo para salir</string>
 </resources>

@@ -45,9 +45,9 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventoView
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(v.getContext())
-                        .setTitle("Eliminar Evento")
-                        .setMessage("¿Estás seguro que quiere eliminar este evento?")
-                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.DeleteEvent)
+                        .setMessage(R.string.SureDeleteEvent)
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Obtén la posición actual del ViewHolder
                                 int currentPosition = holder.getAdapterPosition();
@@ -76,7 +76,7 @@ public class EventoAdapter extends RecyclerView.Adapter<EventoAdapter.EventoView
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 // Hubo un error al eliminar el evento, maneja este caso
-                                                Toast.makeText(v.getContext(), "Error al eliminar el evento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(v.getContext(), R.string.ErrorDeleteEvent + e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }

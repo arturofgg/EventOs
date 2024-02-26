@@ -76,7 +76,7 @@ public class LRFragmentsActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Presiona ATRÁS de nuevo para salir", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.BackExit, Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 

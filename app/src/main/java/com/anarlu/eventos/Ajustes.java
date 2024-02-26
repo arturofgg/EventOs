@@ -82,7 +82,7 @@ public class Ajustes extends AppCompatActivity {
         if (idImagenPredeterminada != 0) {
             persona = getResources().getDrawable(idImagenPredeterminada);
         } else {
-            Toast.makeText(this, "Imagen no dispobible", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.noImage, Toast.LENGTH_SHORT).show();
         }
 
         user2.setOnClickListener(new View.OnClickListener() {
@@ -118,9 +118,9 @@ public class Ajustes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Ajustes.this)
-                        .setTitle("Cerrar Sesión")
-                        .setMessage("¿Estás seguro que quiere cerrar sesión?")
-                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.LogOut)
+                        .setMessage(R.string.SureLogOut)
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 logout();
                             }
@@ -135,9 +135,9 @@ public class Ajustes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Ajustes.this)
-                        .setTitle("Borrar cuenta")
-                        .setMessage("¿Estás seguro que quiere borrar su cuenta? Esta accion no tendrá marcha atrás.")
-                        .setPositiveButton("Sí, estoy seguro", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.DeleteAccount)
+                        .setMessage(R.string.SureDeleteAccount)
+                        .setPositiveButton(R.string.YDeleteAccount, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 borrarUsuario();
                             }
@@ -210,7 +210,7 @@ public class Ajustes extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(Ajustes.this, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Ajustes.this, R.string.DoneDeleteUser, Toast.LENGTH_SHORT).show();
                         logout();
                         finish();
                     }
@@ -218,7 +218,7 @@ public class Ajustes extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Ajustes.this, "Error al eliminar usuario", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Ajustes.this, R.string.ErrorDeleteUser, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -311,7 +311,7 @@ public class Ajustes extends AppCompatActivity {
                     UCrop.of(imageUri, destinoUri).withOptions(options).start(this);
                 } else {
                     // Puede que haya casos donde la imagenUri sea nula, debes manejarlo adecuadamente
-                    Toast.makeText(this, "Error al obtener la imagen de la cámara", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.ErrorCamera, Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == UCrop.REQUEST_CROP) {
                 handleCropResult(data);
@@ -320,8 +320,8 @@ public class Ajustes extends AppCompatActivity {
             // Manejar el error del recorte
             final Throwable cropError = UCrop.getError(data);
             if (cropError != null) {
-                Log.e("UCrop", "Error al recortar la imagen", cropError);
-                Toast.makeText(this, "Error al recortar la imagen", Toast.LENGTH_SHORT).show();
+                Log.e("UCrop", "Error cropping the image", cropError);
+                Toast.makeText(this, R.string.ErrorCropImage, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -339,7 +339,7 @@ public class Ajustes extends AppCompatActivity {
 
             cambiarFotoPerfil(resultUri);
         } else {
-            Toast.makeText(this, "Error al obtener la imagen recortada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.ErrorGetCropImage, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -355,7 +355,7 @@ public class Ajustes extends AppCompatActivity {
         fotoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.d("Eliminar foto", "Eliminacion exitosa");
+                Log.d("Delete image", "Successful deletion");
 
                 // Subir la nueva foto después de eliminar la anterior
                 UploadTask uploadTask = fotoRef.putFile(resultUri);
@@ -375,7 +375,7 @@ public class Ajustes extends AppCompatActivity {
                                     mFirestore.collection("usuarios").document(currentUser.getUid()).update(datosUsuario).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            Toast.makeText(Ajustes.this, "Foto guardada correctamente", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Ajustes.this, R.string.SaveImage, Toast.LENGTH_SHORT).show();
                                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                     .setPhotoUri(Uri.parse(fotoUrl)) // Aquí debes poner la URL de la nueva foto
                                                     .build();
@@ -397,7 +397,7 @@ public class Ajustes extends AppCompatActivity {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(Ajustes.this, "Error al actualizar la foto", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Ajustes.this, R.string.ErrorUpdateImage, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -407,15 +407,15 @@ public class Ajustes extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Ajustes.this, "Error al subir la nueva foto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Ajustes.this, R.string.ErrorUploadImage, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.e("Eliminar foto", "Error al eliminar foto:" + e.getMessage());
-                Toast.makeText(Ajustes.this, "Error al eliminar foto anterior: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("Delete Image", "Error deleting image:" + e.getMessage());
+                Toast.makeText(Ajustes.this, R.string.ErrorDeleteImage + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

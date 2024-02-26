@@ -109,7 +109,7 @@ public class RegisterFragment extends Fragment {
                 String rpassUser=rpassword.getText().toString().trim();
 
                 if(nameUser.isEmpty() || emailUser.isEmpty() || passUser.isEmpty()){
-                    Toast.makeText(getActivity(),"Por favor rellene todos los campos",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),R.string.ToastCampos,Toast.LENGTH_SHORT).show();
                 } else if (passUser.length()<6) {
                     Toast.makeText(getActivity(), R.string.Toast_Password, Toast.LENGTH_SHORT).show();
                 } else {
@@ -120,18 +120,18 @@ public class RegisterFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         if (!task.getResult().isEmpty()) {
                                             // El nombre de usuario ya está en uso.
-                                            Toast.makeText(getActivity(), "El nombre de usuario ya está en uso", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), R.string.ToastUser, Toast.LENGTH_SHORT).show();
                                         } else {
                                             // El nombre de usuario no está en uso.
                                             // Aquí puedes continuar con el registro del usuario.
                                             if (passUser.equals(rpassUser)) {
                                                 registerUser(nameUser, emailUser, passUser);
                                             } else {
-                                                Toast.makeText(getActivity(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getActivity(), R.string.ToastDifferentPass, Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     } else {
-                                        Toast.makeText(getActivity(), "Error al registrar", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), R.string.RegistError, Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -174,13 +174,13 @@ public class RegisterFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             openEventos(task);
-                                            Toast.makeText(getActivity(), "Bienvenido " + nameUser, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "Welcome " + nameUser, Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getActivity(), "Error al guardar usuario", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), R.string.SaveUserError, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
@@ -193,7 +193,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Exception e) {
                 if(e instanceof FirebaseAuthUserCollisionException){
-                    Toast.makeText(getActivity(), "El correo electrónico ya está en uso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.ToastEmail, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     //Toast.makeText(getActivity(), "Error al registrar 2", Toast.LENGTH_SHORT).show();
@@ -215,7 +215,7 @@ public class RegisterFragment extends Fragment {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(getActivity(), "Error de inicio de sesion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.ToastLoginError, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -247,14 +247,14 @@ public class RegisterFragment extends Fragment {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getActivity(), "Registro fallido", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), R.string.ToastRegistFail, Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
                             });
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(getActivity(), "Sign-in failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.ToastRegistFail, Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -283,8 +283,8 @@ public class RegisterFragment extends Fragment {
                                                     imageRef.getDownloadUrl().addOnSuccessListener(onSuccessListener);
                                                 })
                                                 .addOnFailureListener(e -> {
-                                                    Log.e("UploadError", "Error al subir archivo", e);
-                                                    Toast.makeText(getActivity(), "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    Log.e("UploadError", "Error uploading file", e);
+                                                    Toast.makeText(getActivity(), R.string.ToastFileErrorUp + e.getMessage(), Toast.LENGTH_SHORT).show();
                                                 });
                                     }
 
@@ -304,8 +304,8 @@ public class RegisterFragment extends Fragment {
                     imageRef.getDownloadUrl().addOnSuccessListener(onSuccessListener);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("UploadError", "Error al subir archivo", e);
-                    Toast.makeText(getActivity(), "Error al subir archivo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("UploadError", "Error uploading file", e);
+                    Toast.makeText(getActivity(), R.string.ToastFileErrorUp  + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

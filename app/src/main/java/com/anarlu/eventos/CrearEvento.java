@@ -95,7 +95,7 @@ public class CrearEvento extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(CrearEvento.this, "Por favor escoja un tipo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CrearEvento.this, R.string.ChooseType, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -190,7 +190,7 @@ public class CrearEvento extends AppCompatActivity {
                 String fecha_inicial=fecha_ini.getText().toString().trim();
                 String fecha_final=fecha_fin.getText().toString().trim();
                 if(nombre.isEmpty() || ubicacion.isEmpty() || descr.isEmpty() || hora_inicial.isEmpty() || hora_final.isEmpty() || fecha_final.isEmpty() || fecha_inicial.isEmpty()){
-                    Toast.makeText(CrearEvento.this, "Rellene todos los campos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CrearEvento.this, R.string.FillFields, Toast.LENGTH_SHORT).show();
                 }else {
                     crearEvento(nombre,ubicacion,descr,hora_inicial,hora_final,fecha_inicial,fecha_final,user_name,tipoSeleccionado);
                 }
@@ -219,16 +219,16 @@ public class CrearEvento extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Documento añadido con ID: " + EventoRef.getId());
+                        Log.d(TAG, "Document added with ID: " + EventoRef.getId());
                         finish();
                         irEventos();
-                        Toast.makeText(CrearEvento.this, "Evento creado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CrearEvento.this, R.string.EventCreated, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error al añadir el documento", e);
+                        Log.w(TAG, "Error adding the document", e);
                     }
                 });
     }

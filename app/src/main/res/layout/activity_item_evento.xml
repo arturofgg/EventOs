@@ -49,14 +49,17 @@
                     android:id="@+id/event_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:text="NOMBRE DEL EVENTO"
                     android:textColor="@color/white"
-                    android:text="NOMBRE DEL EVENTO" />
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/delete_event"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="150dp"
+                    android:layout_marginStart="80dp"
                     android:background="@drawable/basura"
                     app:cornerRadius="0dp" />
 

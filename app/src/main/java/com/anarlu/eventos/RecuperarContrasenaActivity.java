@@ -25,7 +25,7 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recuperar_contrasena);
 
         mAuth = FirebaseAuth.getInstance();
-        emailInput = findViewById(R.id.emailInput);
+        emailInput = findViewById(R.id.emailInputRC);
         resetPasswordButton = findViewById(R.id.resetPasswordButton);
 
         //reset de la password
@@ -37,7 +37,7 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
                     // Implemetar logica de la contraseña
                     resetPassword();
                 } else {
-                    Toast.makeText(RecuperarContrasenaActivity.this, "Por favor, introduce tu email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecuperarContrasenaActivity.this, R.string.PleaseEmail, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -55,13 +55,13 @@ public class RecuperarContrasenaActivity extends AppCompatActivity {
         mAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(RecuperarContrasenaActivity.this, "Enlace de nueva contraseña enviado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecuperarContrasenaActivity.this, R.string.LinkPassword, Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Manejar el fallo de enviar el correo de restablecimiento de contraseña
-                Toast.makeText(RecuperarContrasenaActivity.this, "Error al enviar el correo de restablecimiento de contraseña", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecuperarContrasenaActivity.this, R.string.ErrorLinkPassword, Toast.LENGTH_SHORT).show();
             }
         });
     }

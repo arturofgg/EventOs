@@ -54,13 +54,13 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
         mFirestore=FirebaseFirestore.getInstance();
         Evento evento = eventos.get(position);
         holder.nombreEvento.setText(evento.getNombre());
-        holder.nombreUsuario.setText("Creado por:"+evento.getNombre_usuario());
+        holder.nombreUsuario.setText("Created by: "+evento.getNombre_usuario());
         holder.ubicacion.setText(evento.getUbicacion());
         holder.descripcion.setText(evento.getDescripicion());
-        holder.fecha_inicio.setText("Fecha de inicio:"+evento.getFecha_inicial());
-        holder.fecha_fin.setText("Fecha de finalizacion"+evento.getFecha_final());
-        holder.hora_inicio.setText("Hora de inicio:"+evento.getHora_inicio());
-        holder.hora_fin.setText("Hora de finalizacion:"+evento.getHora_final());
+        holder.fecha_inicio.setText("Start date: "+evento.getFecha_inicial());
+        holder.fecha_fin.setText("End date: "+evento.getFecha_final());
+        holder.hora_inicio.setText("Start time: "+evento.getHora_inicio());
+        holder.hora_fin.setText("End time: "+evento.getHora_final());
         String tipo=evento.getTipo();
 
         switch (tipo){
@@ -153,12 +153,12 @@ public class EventosAdapterExpandible  extends RecyclerView.Adapter<EventosAdapt
                     PackageManager packageManager = v.getContext().getPackageManager();
                     if (mapIntent.resolveActivity(packageManager) != null) {
                         // Si está instalada, abrir Google Maps
-                        Log.d("EventoViewHolder", "Google Maps está instalado en el dispositivo");
+                        Log.d("EventoViewHolder", "Google Maps is installed on the device");
                         v.getContext().startActivity(mapIntent);
                     } else {
                         // Si no está instalada, mostrar un mensaje al usuario
-                        Log.d("EventoViewHolder", "Google Maps no está instalado en este dispositivo");
-                        Toast.makeText(v.getContext(), "Google Maps no está instalado en este dispositivo", Toast.LENGTH_SHORT).show();
+                        Log.d("EventoViewHolder", "Google Maps is not installed on the device");
+                        Toast.makeText(v.getContext(), R.string.NoMapInstalled, Toast.LENGTH_SHORT).show();
                     }
 
                 }

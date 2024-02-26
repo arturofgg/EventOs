@@ -198,7 +198,7 @@ public class PaginaPrincipal extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     // Manejar el caso en el que no se pueda descargar la imagen
-                    Log.e(TAG, "Error al descargar la imagen del perfil: " + e.getMessage());
+                    Log.e(TAG, "Error downloading the profile picture: " + e.getMessage());
                 }
             });
         }
@@ -241,7 +241,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Presiona ATRÁS de nuevo para salir", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.BackExit, Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
