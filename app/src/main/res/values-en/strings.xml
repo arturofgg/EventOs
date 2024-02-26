@@ -4,7 +4,7 @@
     <!--LOGIN, REGISTER Y RECUPERAR CONTRASEÑA-->
     <string name="login_text">Sign in</string>
     <string name="register_text">Register</string>
-    <string name="emailuser_hint">Email or Username</string>
+    <string name="emailuser_hint">Email</string>
     <string name="password_hint">Password</string>
 
     <!--LOGIN Y REGISTER-->
